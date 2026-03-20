@@ -6,6 +6,8 @@
     nix-clean = "sudo nix-collect-garbage -d";
   };
 
+  programs.bash.enable = true;
+
   programs.wezterm.enable = true;
   programs.neovim = {
     enable = true;
