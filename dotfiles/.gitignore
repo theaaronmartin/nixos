@@ -1,0 +1,32 @@
+# --- Neovim ---
+# Prevent accidental upload of the data folder if it gets nested
+nvim-data/
+
+# Swap/Undo/Backup files (if configured to store locally)
+*.swp
+*.swo
+*~
+undo/
+swap/
+backup/
+
+# Local project config (often created by plugins)
+.nvim/
+
+# --- Windows/OS Junk ---
+# Thumbnail cache and folder config
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# --- Mac/Linux Junk ---
+# Just in case you ever sync to a Mac
+.DS_Store
+
+# --- WezTerm ---
+# Log files if you enabled debugging
+wezterm.log
+
+# --- General ---
+# The backup folders our install script creates
+*.backup.*

@@ -1,0 +1,50 @@
+[colors]
+ansi = [
+  '#181321', # Black
+  '#Eb345C', # Red
+  '#89EB9A', # Green
+  '#D8FF00', # Yellow
+  '#399EE6', # Blue
+  '#b36ae2', # Magenta
+  '#b36ae2', # Cyan (using purple as a substitute)
+  '#ffffff', # White
+]
+background = "#1d1727"
+brights = [
+  '#5f4c80', # Bright Black (Grey)
+  '#F07171', # Bright Red
+  '#89EB9A', # Bright Green
+  '#E1F02B', # Bright Yellow
+  '#399EE6', # Bright Blue
+  '#b36ae2', # Bright Magenta
+  '#b36ae2', # Bright Cyan
+  '#ffffff', # Bright White
+]
+cursor_bg = "#E1F02B"
+cursor_border = "#1d1727"
+cursor_fg = "#1d1727"
+foreground = "#ffffff"
+selection_bg = "#43355a"
+selection_fg = "#ffffff"
+
+# Tab Bar theming
+[tab_bar]
+background = "#181321"
+
+[tab_bar.active_tab]
+bg_color = "#1d1727"
+fg_color = "#b36ae2"
+intensity = "Bold"
+
+[tab_bar.inactive_tab]
+bg_color = "#181321"
+fg_color = "#5f4c80"
+
+[tab_bar.new_tab]
+bg_color = "#181321"
+fg_color = "#5f4c80"
+
+[colors.indexed]
+
+[metadata]
+name = "functional-purple"

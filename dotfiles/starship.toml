@@ -1,0 +1,34 @@
+# ~/.config/starship.toml
+
+# Changes the prompt symbol
+[character]
+success_symbol = "[λ](bold green)"
+error_symbol = "[✘](bold red)"
+
+# Customizes directory display
+[directory]
+truncation_length = 5
+truncate_to_repo = false
+style = 'bold green'
+
+# Customize username
+[username]
+style_user = 'purple bold'
+style_root = 'purple bold'
+format = '[$user]($style)'
+disabled = false
+show_always = true
+
+# Customize hostname
+[hostname]
+ssh_only = false
+format = '[$username]($style)[@](bold red)[$hostname](bold purple) [➜](bold red) '
+trim_at = '.companyname.com'
+disabled = false
+
+# Customize package information
+[package]
+disabled = true
+
+# Customize Git information
+[git_status]
