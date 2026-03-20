@@ -32,7 +32,7 @@ config.keys = {
 
 config.background = {
 	{
-		source = { File = home_dir .. "/Pictures/Wallpaper/ghost_in_the_shell.png" },
+		source = { File = home_dir .. "/Downloads/ghost_in_the_shell.png" },
 		width = "Cover",
 		height = "Cover",
 		hsb = { brightness = 0.5 },
@@ -44,7 +44,7 @@ config.background = {
 	},
 }
 
-config.default_prog = { "pwsh" }
+config.default_prog = { "bash" }
 config.color_scheme = "functional-purple"
 config.initial_cols = 120
 config.initial_rows = 28

@@ -26,5 +26,9 @@
     gcc
     lua-language-server
     nil
+    typescript-language-server
+    yaml-language-server
+    biome
+    llvmPackages.clang-unwrapped
   ];
 }
