@@ -6,6 +6,7 @@
 
 {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.trusted-users = [ "root" "plague" ];
 
   imports =
     [ # Include the results of the hardware scan.
@@ -309,6 +310,8 @@
     iptables -A FORWARD -i docker0 -j ACCEPT
     iptables -A FORWARD -o docker0 -j ACCEPT
   '';
+
+  programs.ssh.startAgent = true;
 
   # 1. Enable the OpenRGB service and udev rules
   services.hardware.openrgb = {
