@@ -7,13 +7,12 @@
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  services.nvidia-persistenced.enable = true;
-
   hardware.nvidia = {
     modesetting.enable = true;
     open = false; 
     nvidiaSettings = true;
-    
+    nvidiaPersistenced = true;    
+
     # Optional: Use the 'production' or 'beta' branch if needed
     # package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
