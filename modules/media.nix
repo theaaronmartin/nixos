@@ -4,6 +4,11 @@
     openFirewall = true;
   };
 
+  environment.systemPackages = with pkgs; [
+    jellyfin-ffmpeg
+    nvtopPackages.full
+  ];
+
   # CRITICAL: Hardware acceleration overrides for Jellyfin
   systemd.services.jellyfin.serviceConfig = {
     PrivateDevices = lib.mkForce false;
