@@ -7,6 +7,8 @@
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
+  services.nvidia-persistenced.enable = true;
+
   hardware.nvidia = {
     modesetting.enable = true;
     open = false; 

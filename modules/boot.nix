@@ -8,7 +8,10 @@
     "rcu_nocbs=0-23"
     "idle=nomwait"
     "nvidia.NVreg_RegistryDwords=RMConnectToProtocol=1"
+    "nvidia-drm.modeset=1"
+    "nvidia-drm.fbdev=1"
     "acpi_enforce_resources=lax"
+    "pcie_aspm=off"
   ];
   
   boot.kernelModules = [ "i2c-dev" "i2c-piix4" "ee1004" ];
