@@ -3,6 +3,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages;
 
+  boot.extraModulePackages = [ config.boot.kernelPackages.zenpower ];
+
   boot.kernelParams = [
     "processor.max_cstate=1"
     "rcu_nocbs=0-23"
