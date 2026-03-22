@@ -11,8 +11,16 @@
 
   # CRITICAL: Hardware acceleration overrides for Jellyfin
   systemd.services.jellyfin.serviceConfig = {
+    DeviceAllow = lib.mkForce [
+      "char-drm rw"
+      "char-nvidia-frontend rw"
+      "char-nvidia-uvm rw"
+      "char-nvidiactl rw"
+      "char-nvidia-modeset rw"
+      "/dev/dri/renderD128 rw"
+    ];
     PrivateDevices = lib.mkForce false;
-    DeviceAllow = lib.mkForce [ "char-drm rw" "char-nvidia-frontend rw" "char-nvidia-uvm rw" ];
+    BindReadOnlyPaths = [ "/run/opengl-driver" ];
   };
 
   services.radarr = { enable = true; group = "media"; };

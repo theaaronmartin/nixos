@@ -17,6 +17,8 @@
     # package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
+  hardware.nvidia-container-toolkit.enable = true;
+
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
