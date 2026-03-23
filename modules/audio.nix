@@ -1,6 +1,10 @@
 { config, pkgs, ... }: {
 
   security.rtkit.enable = true; 
+
+  environment.systemPackages = [
+    pkgs.pipewire.jack
+  ];
   
   services.pipewire = {
     enable = true;
