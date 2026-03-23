@@ -27,4 +27,6 @@
 
   # This allows OpenRGB to talk to your motherboard and RAM
   hardware.i2c.enable = true;
+
+  powerManagement.cpuFreqGovernor = "performance";
 }
