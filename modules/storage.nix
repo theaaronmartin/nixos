@@ -13,4 +13,6 @@
     fsType = "ntfs-3g";
     options = [ "rw" "uid=1000" "gid=989" "umask=002" "nofail" ];
   };
+
+  services.udisks2.enable = true;
 }
