@@ -4,6 +4,7 @@
   home.shellAliases = {
     nix-switch = "sudo nixos-rebuild switch --flake ~/nixos-config#NIXCORE";
     nix-clean = "sudo nix-collect-garbage -d";
+    vstsync = "yabridgectl sync";
   };
 
   programs.bash.enable = true;
@@ -30,5 +31,10 @@
     yaml-language-server
     biome
     llvmPackages.clang-unwrapped
+    reaper
+    yabridge
+    yabridgectl
+    wine-staging
+    winetricks
   ];
 }
