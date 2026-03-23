@@ -17,6 +17,10 @@
     # package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
+  environment.systemPackages = with pkgs; [
+    zenmonitor
+  ];
+
   hardware.nvidia-container-toolkit.enable = true;
 
   programs.steam = {
