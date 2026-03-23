@@ -10,6 +10,7 @@
     "rcu_nocbs=0-23"
     "idle=nomwait"
     "nvidia.NVreg_RegistryDwords=RMConnectToProtocol=1"
+    "nvidia.NVreg_EnableGpuFirmware=0"
     "nvidia-drm.modeset=1"
     "nvidia-drm.fbdev=1"
     "acpi_enforce_resources=lax"
