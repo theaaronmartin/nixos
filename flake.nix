@@ -7,6 +7,7 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    native-access.url = "github:yusefnapora/native-access-nix";
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
@@ -19,6 +20,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = { inherit inputs; };
           home-manager.users.plague = import ./home.nix;
         }
       ];

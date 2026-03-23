@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, inputs, ... }: {
   home.stateVersion = "25.11";
 
   home.shellAliases = {
@@ -36,5 +36,6 @@
     yabridgectl
     wine-staging
     winetricks
+    inputs.native-access.packages.${pkgs.system}.native-access
   ];
 }
