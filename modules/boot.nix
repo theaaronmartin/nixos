@@ -18,7 +18,7 @@
   ];
   
   # boot.kernelModules = [ "i2c-dev" "i2c-piix4" "ee1004" ];
-  boot.kernelModules = [ "zenpower" ];
+  boot.kernelModules = [ "zenpower" "msr" ];
   boot.blacklistedKernelModules = [ "k10temp" ];
   boot.extraModprobeConfig = "";
 }
