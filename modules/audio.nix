@@ -5,6 +5,11 @@
   environment.systemPackages = [
     pkgs.pipewire.jack
   ];
+
+  security.pam.loginLimits = [
+    { domain = "@audio"; item = "memlock"; type = "-"; value = "unlimited"; }
+    { domain = "@audio"; item = "rtprio"; type = "-"; value = "95"; }
+  ];
   
   services.pipewire = {
     enable = true;
