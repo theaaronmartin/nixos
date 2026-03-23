@@ -37,5 +37,7 @@
     wine-staging
     winetricks
     inputs.native-access.packages.${pkgs.system}.native-access
+    wget
+    samba4Full
   ];
 }
