@@ -36,7 +36,8 @@
     yabridgectl
     wine-staging
     winetricks
-    inputs.native-access.packages.${pkgs.system}.native-access
+    inputs.native-access-nix.packages.${pkgs.system}.native-access
+    inputs.native-access-nix.packages.${pkgs.system}.ni-plugin-install
     wget
     samba4Full
   ];

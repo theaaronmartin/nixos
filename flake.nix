@@ -7,7 +7,10 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    native-access.url = "github:yusefnapora/native-access-nix";
+    native-access-nix = {
+      url = "github:yusefnapora/native-access-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
