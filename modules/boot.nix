@@ -15,6 +15,8 @@
     "nvidia-drm.fbdev=1"
     "acpi_enforce_resources=lax"
     "pcie_aspm=off"
+    "amd_pstate=active"
+    "amd_pstate.epp=performance"
   ];
   
   # boot.kernelModules = [ "i2c-dev" "i2c-piix4" "ee1004" ];
