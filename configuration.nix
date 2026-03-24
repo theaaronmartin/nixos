@@ -11,6 +11,7 @@
     ./modules/desktop.nix
     ./modules/locale.nix
     ./modules/audio.nix
+    ./modules/security.nix
   ];
 
   networking.hostName = "NIXCORE";
