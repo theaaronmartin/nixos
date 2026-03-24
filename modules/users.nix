@@ -2,7 +2,7 @@
   users.users.plague = {
     isNormalUser = true;
     description = "Plague";
-    extraGroups = [ "networkmanager" "wheel" "video" "render" "media" "docker" "i2c" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "audio" "render" "media" "docker" "i2c" ];
     packages = with pkgs; [
       vim
       wget
