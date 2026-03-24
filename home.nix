@@ -35,6 +35,10 @@
     yabridge
     yabridgectl
     wget
+    fastfetch
+    libreoffice-qt-fresh
+    hunspell
+    hunspellDicts.en_US-large
   ];
 
 }
