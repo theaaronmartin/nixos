@@ -15,7 +15,7 @@
     "nvidia-drm.fbdev=1"
     "acpi_enforce_resources=lax"
     "pcie_aspm=off"
-    "amd_pstate=active"
+    "amd_pstate=passive"
     "amd_pstate.epp=performance"
   ];
   
