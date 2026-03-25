@@ -5,6 +5,7 @@
     nix-switch = "sudo nixos-rebuild switch --flake ~/nixos-config#NIXCORE";
     nix-clean = "sudo nix-collect-garbage -d";
     vstsync = "yabridgectl sync";
+    ni-start = "ni-zone -c 'export WINEPREFIX=$HOME/.wine-ni; bash'";
   };
 
   programs.bash.enable = true;

@@ -4,6 +4,24 @@
 
   environment.systemPackages = [
     pkgs.pipewire.jack
+    pkgs.wineWowPackages.staging
+    (pkgs.buildFHSUserEnv {
+      name = "ni-zone";
+      targetPkgs = pkgs: with pkgs; [
+        wineWowPackages.staging
+        gnutls
+        libgpg-error
+        p11-kit
+        zlib
+        libxml2
+        libxslt
+        icu
+        nss
+        nspr
+        expat
+      ];
+      runScript = "bash";
+    })
   ];
 
   security.pam.loginLimits = [
