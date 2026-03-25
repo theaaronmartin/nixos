@@ -9,6 +9,7 @@
       name = "ni-zone";
       targetPkgs = pkgs: with pkgs; [
         wineWowPackages.staging
+        winetricks
         gnutls
         libgpg-error
         p11-kit
@@ -20,7 +21,10 @@
         nspr
         expat
       ];
-      runScript = "bash";
+      runScript = pkgs.writeScript "ni-zone-init" ''
+        export PS1="(ni-zone) \u@\h:\w\$ "
+        exec bash
+      '';
     })
   ];
 
