@@ -36,5 +36,9 @@
 
   services.power-profiles-daemon.enable = false;
 
+  services.udev.extraRules = ''
+    SUBSYSTEMS=="usb", ATTRS{idVendor}=="244f", ATTRS{idProduct}=="0101", MODE="0666", GROUP="audio"
+  '';
+
   powerManagement.cpuFreqGovernor = "performance";
 }

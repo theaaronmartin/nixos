@@ -40,6 +40,7 @@
     libreoffice-qt-fresh
     hunspell
     hunspellDicts.en_US-large
+    bottles
   ];
 
 }

@@ -2,6 +2,13 @@
 
   networking.networkmanager.enable = true;
 
+  networking.hosts = {
+    "127.0.0.1" = [ 
+      "production-request.native-instruments.com" 
+      "cloud-api.native-instruments.com" 
+    ];
+  };
+
   networking.firewall = {
     enable = true;
     checkReversePath = "loose";
