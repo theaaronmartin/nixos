@@ -38,7 +38,7 @@
       ExecStart = 
         let
           redish = "FF0026";
-          purpleish = "A200FF";
+          purpleish = "8201FF";
           bin = "${pkgs.openrgb-with-all-plugins}/bin/openrgb";
         in
         "${bin} --device 0 --mode static --color ${redish} " +
