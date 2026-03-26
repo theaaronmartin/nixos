@@ -38,13 +38,13 @@
       ExecStart = 
         let
           redish = "FF0026";
-          magenta = "FF00FF";
+          purpleish = "A200FF";
           bin = "${pkgs.openrgb-with-all-plugins}/bin/openrgb";
         in
         "${bin} --device 0 --mode static --color ${redish} " +
         "--device 1 --mode static --color ${redish} " +
         "--device 2 --mode static --color ${redish} " +
-        "--device 3 --zone 1 --size 30 --zone 2 --size 30 --mode static --color ${magenta}";
+        "--device 3 --zone 1 --size 30 --zone 2 --size 30 --mode static --color ${purpleish}";
     };
   };
 
