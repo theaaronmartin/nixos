@@ -12,6 +12,7 @@
     ./modules/locale.nix
     ./modules/audio.nix
     ./modules/security.nix
+    ./modules/star-citizen.nix
   ];
 
   networking.hostName = "NIXCORE";
