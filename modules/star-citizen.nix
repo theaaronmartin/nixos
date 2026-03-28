@@ -17,6 +17,17 @@ in
     pkgs.winetricks
   ];
 
+  environment.sessionVariables = {
+    # Force Wine to find the NVIDIA Vulkan driver
+    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+    
+    # Help DXVK identify your 3080
+    DXVK_FILTER_DEVICE_NAME = "GeForce RTX 3080";
+    
+    # Prevent CUDA/NVAPI conflicts in 2026 builds
+    WINE_HIDE_NVIDIA_GPU = "1";
+  };
+
   # 3. Permissions & Logging (Aligning with GID 989)
   # We create a post-activation script to ensure the game folder 
   # stays accessible for your 'media' group tools.
