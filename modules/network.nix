@@ -6,6 +6,7 @@
     "127.0.0.1" = [ 
       "production-request.native-instruments.com" 
       "cloud-api.native-instruments.com" 
+      "modules-cdn.eac-prod.on.epicgames.com"
     ];
   };
 
