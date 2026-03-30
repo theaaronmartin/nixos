@@ -52,17 +52,18 @@
   };
 
   programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    stdenv.cc.cc
-    libcurl
-    gnutls
-    libGL
-    freetype
-    glib
-    xorg.libX11
-    xorg.libXext
-    xorg.libXcursor
-    xorg.libXinerama
-    xorg.libXrandr
+  programs.nix-ld.libraries = [
+    pkgs.stdenv.cc.cc
+    pkgs.curl
+    pkgs.gnutls
+    pkgs.zlib
+    pkgs.libGL
+    pkgs.freetype
+    pkgs.glib
+    pkgs.xorg.libX11
+    pkgs.xorg.libXext
+    pkgs.xorg.libXcursor
+    pkgs.xorg.libXinerama
+    pkgs.xorg.libXrandr
   ];
 }
