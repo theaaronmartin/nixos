@@ -40,9 +40,6 @@
     libreoffice-qt-fresh
     hunspell
     hunspellDicts.en_US-large
-    stdenv.cc.cc
-    libcurl
-    gnutls
   ];
 
 }

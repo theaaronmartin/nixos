@@ -50,4 +50,19 @@
       };
     };
   };
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    libcurl
+    gnutls
+    libGL
+    freetype
+    glib
+    xorg.libX11
+    xorg.libXext
+    xorg.libXcursor
+    xorg.libXinerama
+    xorg.libXrandr
+  ];
 }
