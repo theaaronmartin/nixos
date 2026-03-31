@@ -10,6 +10,7 @@
       git
       vesktop
       bambu-studio
+      feather
     ];
   };
 
