@@ -11,6 +11,7 @@
       vesktop
       bambu-studio
       feather
+      nicotine-plus
     ];
   };
 
