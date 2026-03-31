@@ -12,6 +12,7 @@
       bambu-studio
       feather
       nicotine-plus
+      parted
     ];
   };
 
