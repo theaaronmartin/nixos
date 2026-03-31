@@ -5,7 +5,6 @@
   environment.systemPackages = [
     pkgs.pipewire.jack
     pkgs.wineWowPackages.staging
-    pkgs.decent-sampler
     (pkgs.buildFHSEnv {
       name = "ni-zone";
       targetPkgs = pkgs: with pkgs; [
