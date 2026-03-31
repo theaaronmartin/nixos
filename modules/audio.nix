@@ -12,7 +12,7 @@
       # PASTE THE PATH YOU GOT FROM STEP 1 HERE
       src = /nix/store/vxvwi2rlj3d6zqbiqbc9znbg86i724di-Decent_Sampler-1.17.1-Linux-Static-x86_64.tar.gz;
 
-      nativeBuildInputs = [ pkgs.autoPatchelfHook pkgs.wrapGAppsHook ];
+      nativeBuildInputs = [ pkgs.autoPatchelfHook pkgs.wrapGAppsHook3 ];
       
       # Even 'static' builds need these core Linux windowing libs
       buildInputs = [ 
