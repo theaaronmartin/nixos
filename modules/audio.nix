@@ -23,19 +23,22 @@
         pkgs.stdenv.cc.cc.lib
       ];
 
-      unpackPhase = "tar -xzf $src";
-
       installPhase = ''
+        runHook preInstall
+
         mkdir -p $out/bin $out/lib/vst3 $out/lib/vst
         
-        # Install the standalone app
-        cp DecentSampler $out/bin/
-        
-        # Install the VST3 folder
-        cp -r DecentSampler.vst3 $out/lib/vst3/
-        
-        # Install the VST2 file (if present)
-        [ -f DecentSampler.so ] && cp DecentSampler.so $out/lib/vst/
+        if [ -f DecentSampler ]; then
+          cp DecentSampler $out/bin/
+          cp -r DecentSampler.vst3 $out/lib/vst3/
+          [ -f DecentSampler.so ] && cp DecentSampler.so $out/lib/vst/
+        else
+          cp */DecentSampler $out/bin/
+          cp -r */DecentSampler.vst3 $out/lib/vst3/
+          [ -f */DecentSampler.so ] && cp */DecentSampler.so $out/lib/vst/
+        fi
+
+        runHook postInstall
       '';
     })
     (pkgs.buildFHSEnv {
