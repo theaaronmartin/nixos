@@ -5,6 +5,39 @@
   environment.systemPackages = [
     pkgs.pipewire.jack
     pkgs.wineWowPackages.staging
+    (pkgs.stdenv.mkDerivation {
+      pname = "decent-sampler-manual";
+      version = "1.17.1";
+      
+      # PASTE THE PATH YOU GOT FROM STEP 1 HERE
+      src = /nix/store/vxvwi2rlj3d6zqbiqbc9znbg86i724di-Decent_Sampler-1.17.1-Linux-Static-x86_64.tar.gz;
+
+      nativeBuildInputs = [ pkgs.autoPatchelfHook pkgs.wrapGAppsHook ];
+      
+      # Even 'static' builds need these core Linux windowing libs
+      buildInputs = [ 
+        pkgs.alsa-lib 
+        pkgs.freetype 
+        pkgs.libGL 
+        pkgs.xorg.libX11 
+        pkgs.stdenv.cc.cc.lib
+      ];
+
+      unpackPhase = "tar -xzf $src";
+
+      installPhase = ''
+        mkdir -p $out/bin $out/lib/vst3 $out/lib/vst
+        
+        # Install the standalone app
+        cp DecentSampler $out/bin/
+        
+        # Install the VST3 folder
+        cp -r DecentSampler.vst3 $out/lib/vst3/
+        
+        # Install the VST2 file (if present)
+        [ -f DecentSampler.so ] && cp DecentSampler.so $out/lib/vst/
+      '';
+    })
     (pkgs.buildFHSEnv {
       name = "ni-zone";
       targetPkgs = pkgs: with pkgs; [
