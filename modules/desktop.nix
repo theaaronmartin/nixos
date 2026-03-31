@@ -10,18 +10,22 @@
     variant = "";
   };
 
-  # # Audio (Pipewire)
-  # security.rtkit.enable = true;
-  # services.pipewire = {
-  #   enable = true;
-  #   alsa.enable = true;
-  #   alsa.support32Bit = true;
-  #   pulse.enable = true;
-  # };
-
   # Printing
   services.printing.enable = true;
   
   # Browser
   programs.firefox.enable = true;
+
+  # Vesktop Autostart
+  systemd.user.services.vesktop = {
+    description = "Vesktop Discord Client (Delayed Start)";
+    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+    
+    serviceConfig = {
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
+      ExecStart = "${pkgs.vesktop}/bin/vesktop --start-minimized";
+      Restart = "on-failure";
+    };
+  };
 }
