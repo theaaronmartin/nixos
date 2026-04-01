@@ -1,11 +1,15 @@
-{ config, pkgs, inputs, ... }: {
+{ config, pkgs, inputs, ... }: 
+let
+  secrets = import ./secrets.nix;
+in {
   home.stateVersion = "25.11";
 
   home.shellAliases = {
     nix-switch = "sudo nixos-rebuild switch --flake ~/nixos-config#NIXCORE";
     nix-clean = "sudo nix-collect-garbage -d";
     vstsync = "yabridgectl sync";
-    ni-start = "ni-zone -c 'export WINEPREFIX=$HOME/.wine-ni; bash'";
+    oc-deep = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY='${secrets.deepseekKey}' OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-chat' openclaude";
+    oc-sonnet = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY='${secrets.anthropicKey}' OPENAI_BASE_URL='https://api.anthropic.com/v1' OPENAI_MODEL='claude-3-5-sonnet-20240620' openclaude";
   };
 
   programs.bash.enable = true;
