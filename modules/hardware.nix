@@ -25,15 +25,6 @@
 
   hardware.nvidia-container-toolkit.enable = true;
 
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-  };
-
-  # This allows OpenRGB to talk to your motherboard and RAM
-  hardware.i2c.enable = true;
-
   services.power-profiles-daemon.enable = false;
 
   services.udev.extraRules = ''

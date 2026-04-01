@@ -1,7 +1,4 @@
-{ config, pkgs, inputs, ... }: 
-let
-  secrets = import /home/plague/.config/secrets.nix;
-in {
+{ config, pkgs, inputs, ... }: {
   home.stateVersion = "25.11";
 
 
@@ -18,20 +15,34 @@ in {
   ];
 
   home.shellAliases = {
-    nix-switch = "sudo nixos-rebuild switch --impure --flake ~/nixos-config#NIXCORE";
+    nix-switch = "sudo nixos-rebuild switch --flake ~/nixos-config#NIXCORE";
     nix-clean = "sudo nix-collect-garbage -d";
     vstsync = "yabridgectl sync";
-    oc-deep = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY='${secrets.deepseekKey}' OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-chat' /home/plague/.npm-packages/bin/openclaude";
-    oc-sonnet = "OPENAI_API_KEY='${secrets.anthropicKey}' OPENAI_MODEL='claude-3-5-sonnet-20240620' /home/plague/.npm-packages/bin/openclaude";
+    oc-deep = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY='$DEEPSEEK_KEY' OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-chat' /home/plague/.npm-packages/bin/openclaude";
+    oc-sonnet = "OPENAI_API_KEY='$ANTHROPIC_KEY' OPENAI_MODEL='claude-3-5-sonnet-20240620' /home/plague/.npm-packages/bin/openclaude";
   };
 
-  programs.bash.enable = true;
+  programs.bash = {
+    enable = true;
+    initExtra = ''
+      if [ -f ~/.config/secrets.env ]; then
+          source ~/.config/secrets.env
+      fi
+    '';
+  };
 
   programs.wezterm.enable = true;
   programs.neovim = {
     enable = true;
     defaultEditor = true;
     vimAlias = true;
+  };
+
+  programs.starship = {
+    enable = true;
+    settings = (
+      import ./dotfiles/starship.toml
+    )
   };
 
   # Symlink your Neovim and WezTerm folders directly
@@ -53,6 +64,8 @@ in {
     yabridge
     yabridgectl
     wget
+    curl
+    git
     fastfetch
     libreoffice-qt-fresh
     hunspell

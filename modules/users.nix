@@ -5,9 +5,6 @@
     extraGroups = [ "networkmanager" "wheel" "video" "audio" "render" "media" "docker" "i2c" ];
     packages = with pkgs; [
       vim
-      wget
-      curl
-      git
       vesktop
       bambu-studio
       feather

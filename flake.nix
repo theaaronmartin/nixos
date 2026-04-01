@@ -8,10 +8,6 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    native-access-nix = {
-      url = "github:yusefnapora/native-access-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nix-citizen = {
       url = "github:LovingMelody/nix-citizen";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
