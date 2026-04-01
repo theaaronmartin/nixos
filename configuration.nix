@@ -13,6 +13,7 @@
     ./modules/audio.nix
     ./modules/security.nix
     ./modules/star-citizen.nix
+    ./modules/games.nix
   ];
 
   networking.hostName = "NIXCORE";
