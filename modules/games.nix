@@ -33,6 +33,9 @@ in
   environment.systemPackages = with pkgs; [
     steam-run
     mangohud
+
+    lutris
+    protonup-qt
     
     # Updated launcher using the surgical environment
     (writeShellScriptBin "play-starsector" ''
