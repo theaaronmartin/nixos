@@ -4,6 +4,19 @@ let
 in {
   home.stateVersion = "25.11";
 
+
+  home.sessionVariables = {
+    NODE_PATH = "$HOME/.npm-packages/lib/node_modules";
+  };
+
+  home.file.".npmrc".text = ''
+    prefix=/home/plague/.npm-packages
+  '';
+
+  home.sessionPath = {
+    "$HOME/.npm-packages/bin"
+  };
+
   home.shellAliases = {
     nix-switch = "sudo nixos-rebuild switch --flake ~/nixos-config#NIXCORE";
     nix-clean = "sudo nix-collect-garbage -d";
@@ -47,11 +60,4 @@ in {
     nodejs_20
   ];
 
-  home.sessionVariables = {
-    NODE_PATH = "$HOME/.npm-packages/lib/node_modules";
-  };
-
-  home.file.".npmrc".text = ''
-    prefix=$${HOME}/.npm-packages
-  '';
 }
