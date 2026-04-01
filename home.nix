@@ -1,6 +1,6 @@
 { config, pkgs, inputs, ... }: 
 let
-  secrets = import ./secrets.nix;
+  secrets = import ~/.config/secrets.nix;
 in {
   home.stateVersion = "25.11";
 
