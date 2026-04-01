@@ -18,11 +18,11 @@ in {
   ];
 
   home.shellAliases = {
-    nix-switch = "sudo nixos-rebuild switch --flake ~/nixos-config#NIXCORE";
+    nix-switch = "sudo nixos-rebuild switch --impure --flake ~/nixos-config#NIXCORE";
     nix-clean = "sudo nix-collect-garbage -d";
     vstsync = "yabridgectl sync";
-    oc-deep = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY='${secrets.deepseekKey}' OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-chat' openclaude";
-    oc-sonnet = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY='${secrets.anthropicKey}' OPENAI_BASE_URL='https://api.anthropic.com/v1' OPENAI_MODEL='claude-3-5-sonnet-20240620' openclaude";
+    oc-deep = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY='${secrets.deepseekKey}' OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-chat' /home/plague/.npm-packages/bin/openclaude";
+    oc-sonnet = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY='${secrets.anthropicKey}' OPENAI_BASE_URL='https://api.anthropic.com/v1' OPENAI_MODEL='claude-3-5-sonnet-20240620' /home/plague/.npm-packages/bin/openclaude";
   };
 
   programs.bash.enable = true;
