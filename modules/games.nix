@@ -11,6 +11,8 @@ let
       xorg.libXrender
       xorg.libXxf86vm
       xorg.libXtst
+      xorg.libXi
+      xorg.libXinerama
 
       zlib
       glib
@@ -33,7 +35,7 @@ in
     mangohud
     
     # Updated launcher using the surgical environment
-    (writeShellScriptBin "starsector" ''
+    (writeShellScriptBin "play-starsector" ''
       cd /mnt/games/starsector
       ${starsector-env}/bin/starsector-env
     '')
