@@ -11,6 +11,9 @@ let
       xorg.libXrender
       xorg.libXxf86vm
       xorg.libXtst
+
+      zlib
+      glib
       
       # Graphics & Sound
       libGL
