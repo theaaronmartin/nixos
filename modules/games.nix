@@ -5,7 +5,7 @@
     steam-run 
     
     # Your custom Starsector Launcher (The Read-Only Fix)
-    (writeShellScriptBin "starsector" ''
+    (writeShellScriptBin "play-starsector" ''
       cd /mnt/games/starsector
       # Use steam-run to provide the missing libraries (libXrender, etc.)
       ${steam-run}/bin/steam-run ./starsector.sh
