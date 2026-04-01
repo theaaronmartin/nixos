@@ -18,8 +18,8 @@
     nix-switch = "sudo nixos-rebuild switch --flake ~/nixos-config#NIXCORE";
     nix-clean = "sudo nix-collect-garbage -d";
     vstsync = "yabridgectl sync";
-    oc-deep = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY='$DEEPSEEK_KEY' OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-chat' /home/plague/.npm-packages/bin/openclaude";
-    oc-sonnet = "OPENAI_API_KEY='$ANTHROPIC_KEY' OPENAI_MODEL='claude-3-5-sonnet-20240620' /home/plague/.npm-packages/bin/openclaude";
+    oc-deep = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY=$DEEPSEEK_KEY OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-chat' /home/plague/.npm-packages/bin/openclaude";
+    oc-sonnet = "OPENAI_API_KEY=$ANTHROPIC_KEY OPENAI_MODEL='claude-3-5-sonnet-20240620' /home/plague/.npm-packages/bin/openclaude";
   };
 
   programs.bash = {
