@@ -20,15 +20,15 @@
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs: 
     let
-      hostPlatform.system = "x86_64-linux";
+      hostPlatform = "x86_64-linux";
       
       pkgs-unstable = import nixpkgs-unstable {
-        inherit system;
+        inherit hostPlatform;
         config.allowUnfree = true;
       };
     in {
       nixosConfigurations.NIXCORE = nixpkgs.lib.nixosSystem {
-        inherit system;
+        inherit hostPlatform;
         
         specialArgs = { inherit inputs pkgs-unstable; };
         
