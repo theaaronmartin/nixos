@@ -1,7 +1,7 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
 
 let
-  starsector-env = pkgs.buildFHSUserEnv {
+  starsector-env = pkgs.buildFHSEnv {
     name = "starsector-env";
     targetPkgs = pkgs: with pkgs; [
       xorg.libX11
