@@ -20,7 +20,7 @@
 
   outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs: 
     let
-      system = "x86_64-linux";
+      hostPlatform = "x86_64-linux";
       
       pkgs-unstable = import nixpkgs-unstable {
         inherit system;
