@@ -1,6 +1,6 @@
 { config, pkgs, inputs, ... }: 
 let
-  secrets = import ~/.config/secrets.nix;
+  secrets = import /home/plague/.config/secrets.nix;
 in {
   home.stateVersion = "25.11";
 
