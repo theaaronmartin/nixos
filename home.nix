@@ -42,7 +42,7 @@
     enable = true;
     settings = (
       import ./dotfiles/starship.toml
-    )
+    );
   };
 
   # Symlink your Neovim and WezTerm folders directly
