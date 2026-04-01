@@ -9,10 +9,11 @@
   };
 
   fileSystems."/mnt/games" = {
-    device = "/dev/disk/by-uuid/5C060DEE060DC9CA";
-    fsType = "ntfs-3g";
-    options = [ "rw" "uid=1000" "gid=989" "umask=002" "nofail" ];
+    device = "/dev/disk/by-label/games";
+    fsType = "ext4";
+    options = [ "defaults" "noatime" "discard" "nofail" ];
   };
 
   services.udisks2.enable = true;
+  services.udisks2.mountOnMedia = true;
 }
