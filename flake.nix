@@ -23,12 +23,12 @@
       hostPlatform = "x86_64-linux";
       
       pkgs-unstable = import nixpkgs-unstable {
-        inherit hostPlatform;
+        system = hostPlatform;
         config.allowUnfree = true;
       };
     in {
       nixosConfigurations.NIXCORE = nixpkgs.lib.nixosSystem {
-        inherit hostPlatform;
+        system = hostPlatform;
         
         specialArgs = { inherit inputs pkgs-unstable; };
         
