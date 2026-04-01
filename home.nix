@@ -13,9 +13,9 @@ in {
     prefix=/home/plague/.npm-packages
   '';
 
-  home.sessionPath = {
+  home.sessionPath = [
     "$HOME/.npm-packages/bin"
-  };
+  ];
 
   home.shellAliases = {
     nix-switch = "sudo nixos-rebuild switch --flake ~/nixos-config#NIXCORE";
