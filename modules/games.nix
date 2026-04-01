@@ -1,14 +1,38 @@
 { pkgs, ... }: {
 
+let
+  starsector-env = pkgs.buildFHSUserEnv {
+    name = "starsector-env";
+    targetPkgs = pkgs: with pkgs; [
+      xorg.libX11
+      xorg.libXext
+      xorg.libXcursor
+      xorg.libXrandr
+      xorg.libXrender
+      xorg.libXxf86vm
+      xorg.libXtst
+      
+      # Graphics & Sound
+      libGL
+      alsa-lib
+      openal
+      fontconfig
+    ];
+    runScript = "./starsector.sh";
+  };
+in
+{
+  programs.steam.enable = true;
+  programs.gamemode.enable = true;
+
   environment.systemPackages = with pkgs; [
-    # The "Magic Bullet" for non-Nix binaries (Starsector, etc.)
-    steam-run 
+    steam-run
+    mangohud
     
-    # Your custom Starsector Launcher (The Read-Only Fix)
-    (writeShellScriptBin "play-starsector" ''
+    # Updated launcher using the surgical environment
+    (writeShellScriptBin "starsector" ''
       cd /mnt/games/starsector
-      # Use steam-run to provide the missing libraries (libXrender, etc.)
-      ${steam-run}/bin/steam-run ./starsector.sh
+      ${starsector-env}/bin/starsector-env
     '')
   ];
 }
