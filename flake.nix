@@ -14,10 +14,10 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs: 
+  outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
     let
       hostPlatform = "x86_64-linux";
-      
+
       pkgs-unstable = import nixpkgs-unstable {
         system = hostPlatform;
         config.allowUnfree = true;
@@ -25,9 +25,9 @@
     in {
       nixosConfigurations.NIXCORE = nixpkgs.lib.nixosSystem {
         system = hostPlatform;
-        
+
         specialArgs = { inherit inputs pkgs-unstable; };
-        
+
         modules = [
           ./configuration.nix
           inputs.home-manager.nixosModules.home-manager

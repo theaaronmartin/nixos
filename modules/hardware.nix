@@ -11,9 +11,9 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-    open = false; 
+    open = false;
     nvidiaSettings = true;
-    nvidiaPersistenced = true;    
+    nvidiaPersistenced = false;
 
     # Optional: Use the 'production' or 'beta' branch if needed
     # package = config.boot.kernelPackages.nvidiaPackages.stable;
