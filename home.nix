@@ -40,9 +40,7 @@
 
   programs.starship = {
     enable = true;
-    settings = (
-      import builtins.fromTOML (builtins.readFile ./dotfiles/starship.toml)
-    );
+    settings = import builtins.fromTOML (builtins.readFile ./dotfiles/starship.toml);
   };
 
   # Symlink your Neovim and WezTerm folders directly
