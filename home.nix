@@ -45,7 +45,7 @@
 
   home.sessionVariables = {
     NODE_PATH = "$HOME/.npm-packages/lib/node_modules";
-  }
+  };
 
   home.file.".npmrc".text = ''
     prefix=\${HOME}/.npm-packages
