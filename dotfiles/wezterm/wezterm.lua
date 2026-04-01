@@ -16,7 +16,7 @@ config.keys = {
     {
         key = "V",
         mods = "CTRL|SHIFT",
-        action = wezterm.action.DisableDefaultAssignment,
+        action = act.PasteFrom("Clipboard"),
     },
     -- {
     -- 	key = "v",
