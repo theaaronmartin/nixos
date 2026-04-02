@@ -1,15 +1,15 @@
 return {
     {
         'williamboman/mason.nvim',
-            config = function()
-                require('mason').setup()
-            end
+        config = function()
+            require('mason').setup()
+        end
     },
     {
         'williamboman/mason-lspconfig.nvim',
         config = function()
             require('mason-lspconfig').setup({
-                ensure_installed = { }
+                ensure_installed = {}
             })
         end
     },
@@ -21,9 +21,9 @@ return {
                 "folke/lazydev.nvim",
                 ft = "lua",
                 opts = {
-                  library = {
-                    { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-                  },
+                    library = {
+                        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+                    },
                 },
             },
             'hrsh7th/cmp-nvim-lsp',
@@ -39,14 +39,13 @@ return {
                 capabilities = capabilities
             })
             lspconfig.ts_ls.setup({
-                capabilities = function()
-                    local caps = vim.deepcopy(capabilities)
-                    caps.textDocument.codeActionProvider = false
-                    caps.textDocument.codeAction = {
-                        dynamicRegistration = false
-                    }
-                    return caps
-                end
+                capabilities = capabilities
+            })
+            local ts_caps = vim.deepcopy(capabilities)
+            ts_caps.textDocument.codeActionProvider = false
+            ts_caps.textDocument.codeAction = { dynamicRegistration = false }
+            lspconfig.ts_ls.setup({
+                capabilities = ts_caps
             })
             lspconfig.biome.setup({
                 capabilities = capabilities
