@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   services.jellyfin = {
     enable = true;
     openFirewall = true;
@@ -23,9 +29,20 @@
     BindReadOnlyPaths = [ "/run/opengl-driver" ];
   };
 
-  services.radarr = { enable = true; group = "media"; };
-  services.sonarr = { enable = true; group = "media"; };
-  services.sabnzbd.enable = true;
+  services.radarr = {
+    enable = true;
+    openFirewall = true;
+    group = "media";
+  };
+  services.sonarr = {
+    enable = true;
+    openFirewall = true;
+    group = "media";
+  };
+  services.sabnzbd = {
+    enable = true;
+    openFirewall = true;
+  };
 
   services.navidrome = {
     enable = true;
@@ -46,25 +63,42 @@
   # Group permissions and Arr stack write paths
   users.groups.media = {
     gid = lib.mkForce 989;
-    members = [ "plague" "jellyfin" "sabnzbd" "radarr" "sonarr" "navidrome" ];
+    members = [
+      "plague"
+      "jellyfin"
+      "sabnzbd"
+      "radarr"
+      "sonarr"
+      "navidrome"
+    ];
   };
 
   systemd.services.radarr.serviceConfig = {
     Group = lib.mkForce "media";
-    ReadWritePaths = [ "/mnt/media/Movies" "/mnt/media/Downloads/complete" ];
+    ReadWritePaths = [
+      "/mnt/media/Movies"
+      "/mnt/media/Downloads/complete"
+    ];
     ProtectSystem = lib.mkForce "soft";
     ProtectHome = lib.mkForce false;
   };
 
   systemd.services.sonarr.serviceConfig = {
     Group = lib.mkForce "media";
-    ReadWritePaths = [ "/mnt/media/Shows" "/mnt/media/Downloads/complete" ];
+    ReadWritePaths = [
+      "/mnt/media/Shows"
+      "/mnt/media/Downloads/complete"
+    ];
     ProtectSystem = lib.mkForce "soft";
     ProtectHome = lib.mkForce false;
   };
 
   systemd.services.sabnzbd.serviceConfig.Group = lib.mkForce "media";
-  
+
   users.users.sabnzbd.extraGroups = [ "media" ];
-  users.users.jellyfin.extraGroups = [ "media" "video" "render" ];
+  users.users.jellyfin.extraGroups = [
+    "media"
+    "video"
+    "render"
+  ];
 }
