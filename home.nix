@@ -1,6 +1,11 @@
-{ config, pkgs, inputs, ... }: {
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
+{
   home.stateVersion = "25.11";
-
 
   home.sessionVariables = {
     NODE_PATH = "$HOME/.npm-packages/lib/node_modules";
@@ -19,7 +24,7 @@
     nix-clean = "sudo nix-collect-garbage -d";
     vstsync = "yabridgectl sync";
     oc-deep = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY=$DEEPSEEK_KEY OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-chat' /home/plague/.npm-packages/bin/openclaude";
-    oc-sonnet = "OPENAI_API_KEY=$ANTHROPIC_KEY OPENAI_MODEL='claude-3-5-sonnet-20240620' /home/plague/.npm-packages/bin/openclaude";
+    oc-sonnet = "OPENAI_API_KEY=$ANTHROPIC_KEY /home/plague/.npm-packages/bin/openclaude";
   };
 
   programs.bash = {
@@ -44,8 +49,10 @@
   };
 
   # Symlink your Neovim and WezTerm folders directly
-  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/plague/nixos-config/dotfiles/nvim";
-  xdg.configFile."wezterm".source = config.lib.file.mkOutOfStoreSymlink "/home/plague/nixos-config/dotfiles/wezterm";
+  xdg.configFile."nvim".source =
+    config.lib.file.mkOutOfStoreSymlink "/home/plague/nixos-config/dotfiles/nvim";
+  xdg.configFile."wezterm".source =
+    config.lib.file.mkOutOfStoreSymlink "/home/plague/nixos-config/dotfiles/wezterm";
 
   # List user-specific packages (LSPs, CLI tools)
   home.packages = with pkgs; [
