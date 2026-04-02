@@ -57,7 +57,6 @@
     typescript-language-server
     yaml-language-server
     biome
-    llvmPackages.clang-unwrapped
     clang-tools
     reaper
     yabridge
