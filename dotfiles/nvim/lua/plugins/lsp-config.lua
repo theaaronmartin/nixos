@@ -38,7 +38,7 @@ return {
             lspconfig.lua_ls.setup({
                 capabilities = capabilities
             })
-            lspconfig.tsserver.setup({
+            lspconfig.ts_ls.setup({
                 capabilities = function()
                     local caps = vim.deepcopy(capabilities)
                     caps.textDocument.codeActionProvider = false
