@@ -26,14 +26,19 @@ return {
                   },
                 },
             },
+            'hrsh7th/cmp-nvim-lsp',
         },
         config = function()
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
             local lspconfig = require('lspconfig')
+
+            -- Debug: Print available LSP servers
+            vim.notify("Setting up LSP servers...", vim.log.levels.INFO)
+
             lspconfig.lua_ls.setup({
                 capabilities = capabilities
             })
-            lspconfig.ts_ls.setup({
+            lspconfig.tsserver.setup({
                 capabilities = function()
                     local caps = vim.deepcopy(capabilities)
                     caps.textDocument.codeActionProvider = false
@@ -53,9 +58,31 @@ return {
                 capabilities = capabilities,
                 cmd = { "clangd", "--background-index" },
             })
+
+            -- Add nil (Nix LSP) if available
+            pcall(function()
+                lspconfig.nil_ls.setup({
+                    capabilities = capabilities
+                })
+            end)
+
             vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
             vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
             vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, {})
+            vim.keymap.set('n', '<leader>ld', ':LspDebug<CR>', { desc = '[L]SP [D]ebug' })
+
+            -- Debug command to check LSP status
+            vim.api.nvim_create_user_command('LspDebug', function()
+                local clients = vim.lsp.get_active_clients()
+                if #clients == 0 then
+                    print("No active LSP clients")
+                else
+                    print("Active LSP clients:")
+                    for _, client in ipairs(clients) do
+                        print("  - " .. client.name)
+                    end
+                end
+            end, {})
         end
     },
     {
