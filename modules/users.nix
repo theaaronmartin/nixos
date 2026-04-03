@@ -1,8 +1,19 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   users.users.plague = {
     isNormalUser = true;
     description = "Plague";
-    extraGroups = [ "networkmanager" "wheel" "video" "audio" "render" "media" "docker" "i2c" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "video"
+      "audio"
+      "render"
+      "media"
+      "docker"
+      "i2c"
+      "input"
+    ];
     packages = with pkgs; [
       vim
       vesktop
