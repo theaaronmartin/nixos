@@ -14,6 +14,12 @@
     options = [ "defaults" "noatime" "discard" "nofail" ];
   };
 
+  fileSystems."/mnt/media_02" = {
+    device = "/dev/disk/by-uuid/7ba88822-9946-4d59-aa13-92bfef10744f";
+    fsType = "ext4";
+    options = [ "defaults" "noatime" "discard" "nofail" ];
+  };
+
   services.udisks2.enable = true;
   services.udisks2.mountOnMedia = true;
 }
