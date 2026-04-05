@@ -46,8 +46,6 @@
       "category.create=epmfs"
       "minfreespace=10G"
       "fsname=mergerfs_media"
-      "uid=1000"
-      "gid=989"
     ];
   };
 
