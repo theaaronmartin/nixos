@@ -57,8 +57,13 @@
     "ext4"
     "ntfs"
   ];
-  boot.fuse.userAllowOther = true;
   environment.systemPackages = with pkgs; [ mergerfs ];
+
+  # Configure fuse to allow non-root users
+  environment.etc."fuse.conf".text = ''
+    user_allow_other
+    mount_max = 1000
+  '';
 
   services.udisks2.enable = true;
   services.udisks2.mountOnMedia = true;
