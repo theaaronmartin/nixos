@@ -94,7 +94,13 @@
     ProtectHome = lib.mkForce false;
   };
 
-  systemd.services.sabnzbd.serviceConfig.Group = lib.mkForce "media";
+  systemd.services.sabnzbd = {
+    serviceConfig = {
+      Group = lib.mkForce "media";
+      # UMask 0002: files get 664 (rw-rw-r--), dirs get 775 (rwxrwxr-x)
+      UMask = "0002";
+    };
+  };
 
   users.users.sabnzbd.extraGroups = [ "media" ];
   users.users.jellyfin.extraGroups = [
