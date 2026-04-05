@@ -57,6 +57,7 @@
     "ext4"
     "ntfs"
   ];
+  boot.fuse.userAllowOther = true;
   environment.systemPackages = with pkgs; [ mergerfs ];
 
   services.udisks2.enable = true;
