@@ -46,11 +46,17 @@
       "category.create=epmfs"
       "minfreespace=10G"
       "fsname=mergerfs_media"
+      "uid=1000"
+      "gid=989"
     ];
   };
 
   # Enable FUSE and add mergerfs package
-  boot.supportedFilesystems = [ "fuse" "ext4" "ntfs" ];
+  boot.supportedFilesystems = [
+    "fuse"
+    "ext4"
+    "ntfs"
+  ];
   environment.systemPackages = with pkgs; [ mergerfs ];
 
   services.udisks2.enable = true;
