@@ -9,6 +9,9 @@
       "noatime"
       "discard"
       "nofail"
+      "uid=1000"    # plague
+      "gid=989"     # media group
+      "umask=002"   # rwxrwxr-x (775)
     ];
   };
 
@@ -31,6 +34,9 @@
       "noatime"
       "discard"
       "nofail"
+      "uid=1000"    # plague
+      "gid=989"     # media group
+      "umask=002"   # rwxrwxr-x (775)
     ];
   };
 
@@ -46,6 +52,7 @@
       "category.create=epmfs"
       "minfreespace=10G"
       "fsname=mergerfs_media"
+      "gid=989"
     ];
   };
 
