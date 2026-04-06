@@ -103,12 +103,12 @@
   };
 
   systemd.tmpfiles.rules = [
-    "d /mnt/media_01/Downloads          0775 sabnzbd media -"
-    "d /mnt/media_01/Downloads/complete 0775 sabnzbd media -"
-    "d /mnt/media_01/Downloads/incomplete 0775 sabnzbd media -"
-    "d /mnt/media_02/Downloads          0775 sabnzbd media -"
-    "d /mnt/media_02/Downloads/complete 0775 sabnzbd media -"
-    "d /mnt/media_02/Downloads/incomplete 0775 sabnzbd media -"
+    "d /mnt/media_01/Downloads          0775 plague media -"
+    "d /mnt/media_01/Downloads/complete 0775 plague media -"
+    "d /mnt/media_01/Downloads/incomplete 0775 plague media -"
+    "d /mnt/media_02/Downloads          0775 plague media -"
+    "d /mnt/media_02/Downloads/complete 0775 plague media -"
+    "d /mnt/media_02/Downloads/incomplete 0775 plague media -"
   ];
 
   users.users.sabnzbd.extraGroups = [ "media" ];
