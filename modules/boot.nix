@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_zen;
@@ -18,9 +19,11 @@
     "amd_pstate=passive"
     "amd_pstate.epp=performance"
   ];
-  
+
   # boot.kernelModules = [ "i2c-dev" "i2c-piix4" "ee1004" ];
-  boot.kernelModules = [ "zenpower" "msr" ];
+  boot.kernelModules = [
+    "zenpower"
+    "msr"
+  ];
   boot.blacklistedKernelModules = [ "k10temp" ];
-  boot.extraModprobeConfig = "";
 }

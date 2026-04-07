@@ -1,23 +1,27 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
 
   networking.networkmanager.enable = true;
 
   networking.hosts = {
-    "127.0.0.1" = [ 
-      "production-request.native-instruments.com" 
-      "cloud-api.native-instruments.com" 
-      "modules-cdn.eac-prod.on.epicgames.com"
+    "127.0.0.1" = [
+      # "modules-cdn.eac-prod.on.epicgames.com"
     ];
   };
 
   networking.firewall = {
     enable = true;
     checkReversePath = "loose";
-    allowedTCPPorts = [ 38080 38443 81 4533 ];
-    
+    allowedTCPPorts = [
+      38080
+      38443
+      81
+      4533
+    ];
+
     extraCommands = ''
-      iptables -A FORWARD -i docker0 -j ACCEPT
-      iptables -A FORWARD -o docker0 -j ACCEPT
+      iptables -C -A FORWARD -i docker0 -j ACCEPT
+      iptables -C -A FORWARD -o docker0 -j ACCEPT
     '';
   };
 
