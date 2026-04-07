@@ -8,6 +8,17 @@
     # acceleration = "cuda"; # Removed - let Ollama auto-detect GPU
   };
 
+  # Add CUDA to system packages for GPU acceleration
+  environment.systemPackages = with pkgs; [
+    cudaPackages.cudatoolkit
+  ];
+
+  # Add environment variables for CUDA
+  environment.sessionVariables = {
+    CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
+    LD_LIBRARY_PATH = "${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudatoolkit.lib}/lib";
+  };
+
   # Add Ollama to user packages for CLI access
   home-manager.users.plague = {
     home.packages = with pkgs-unstable; [
