@@ -5,7 +5,7 @@
   services.ollama = {
     enable = true;
     package = pkgs-unstable.ollama; # Use unstable for newer version
-    acceleration = "cuda"; # Use CUDA for NVIDIA GPU acceleration
+    # acceleration = "cuda"; # Removed - let Ollama auto-detect GPU
   };
 
   # Add Ollama to user packages for CLI access
@@ -14,9 +14,6 @@
       ollama
     ];
   };
-
-  # Optional: Create a systemd service for auto-starting Ollama
-  # (The ollama service already runs as a systemd service when enabled)
 
   # Optional: Add firewall rule if you want remote access (default is localhost only)
   # networking.firewall.allowedTCPPorts = [ 11434 ];
