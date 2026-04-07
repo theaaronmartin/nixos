@@ -14,6 +14,7 @@
     ./modules/security.nix
     ./modules/star-citizen.nix
     ./modules/games.nix
+    ./modules/ollama.nix
   ];
 
   networking.hostName = "NIXCORE";
