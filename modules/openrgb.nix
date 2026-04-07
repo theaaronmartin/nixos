@@ -1,11 +1,16 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   services.hardware.openrgb = {
     enable = true;
     motherboard = "amd";
     package = pkgs.openrgb-with-all-plugins;
   };
 
-  boot.kernelModules = [ "i2c-dev" "i2c-piix4" "ee1004" ];
+  boot.kernelModules = [
+    "i2c-dev"
+    "i2c-piix4"
+    "ee1004"
+  ];
   hardware.i2c.enable = true;
   users.groups.i2c.members = [ "plague" ];
 
@@ -29,22 +34,22 @@
   systemd.services.openrgb-set-colors = {
     description = "Apply boot colors and reset ARGB zone sizes";
     # CRITICAL: Must run after the server starts or it will fail to connect
-    after = [ "openrgb.service" ]; 
+    after = [ "openrgb.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
       ExecStartPre = "${pkgs.coreutils}/bin/sleep 5"; # Brief pause to let server detect all HID/I2C devices
-      ExecStart = 
+      ExecStart =
         let
           redish = "FF0026";
           purpleish = "5D00FF";
           bin = "${pkgs.openrgb-with-all-plugins}/bin/openrgb";
         in
-        "${bin} --device 0 --mode static --color ${redish} " +
-        "--device 1 --mode static --color ${redish} " +
-        "--device 2 --mode static --color ${redish} " +
-        "--device 3 --zone 1 --size 30 --zone 2 --size 30 --mode static --color ${purpleish}";
+        "${bin} --device 0 --mode static --color ${redish} "
+        + "--device 1 --mode static --color ${redish} "
+        + "--device 2 --mode direct --color ${redish} "
+        + "--device 3 --zone 1 --size 30 --zone 2 --size 30 --mode static --color ${purpleish}";
     };
   };
 
