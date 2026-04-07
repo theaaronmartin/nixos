@@ -21,6 +21,7 @@
       feather
       nicotine-plus
       parted
+      thunderbird
     ];
   };
 
