@@ -16,12 +16,16 @@
     nvidiaSettings = true;
     nvidiaPersistenced = false;
 
+    # Enable CUDA support
+    cuda.enable = true;
+
     # Optional: Use the 'production' or 'beta' branch if needed
     # package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
   environment.systemPackages = with pkgs; [
     zenmonitor
+    cudaPackages.cudatoolkit
   ];
 
   hardware.nvidia-container-toolkit.enable = true;
