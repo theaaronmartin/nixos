@@ -21,6 +21,7 @@
       pkgs-unstable = import nixpkgs-unstable {
         system = hostPlatform;
         config.allowUnfree = true;
+        config.cudaSupport = true;
       };
     in {
       nixosConfigurations.NIXCORE = nixpkgs.lib.nixosSystem {
