@@ -1,23 +1,10 @@
-{ config, pkgs, lib, pkgs-unstable, ... }:
+{ pkgs-unstable, ... }:
 
 {
-  # Enable Ollama service
   services.ollama = {
     enable = true;
-    package = pkgs-unstable.ollama; # Use unstable for newer version
-
-    # Add CUDA libraries to service environment
-    environmentVariables = {
-      CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
-      LD_LIBRARY_PATH = "${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudatoolkit.lib}/lib";
-    };
-  };
-
-  # Add Ollama to user packages for CLI access
-  home-manager.users.plague = {
-    home.packages = with pkgs-unstable; [
-      ollama
-    ];
+    package = pkgs-unstable.ollama;
+    acceleration = "cuda";
   };
 
   # Optional: Add firewall rule if you want remote access (default is localhost only)
