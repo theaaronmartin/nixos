@@ -5,6 +5,12 @@
   services.ollama = {
     enable = true;
     package = pkgs-unstable.ollama; # Use unstable for newer version
+
+    # Add CUDA libraries to service environment
+    environmentVariables = {
+      CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
+      LD_LIBRARY_PATH = "${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudatoolkit.lib}/lib";
+    };
   };
 
   # Add Ollama to user packages for CLI access
