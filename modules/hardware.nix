@@ -16,9 +16,6 @@
     nvidiaSettings = true;
     nvidiaPersistenced = false;
 
-    # Enable CUDA support
-    cuda.enable = true;
-
     # Optional: Use the 'production' or 'beta' branch if needed
     # package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
