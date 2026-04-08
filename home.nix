@@ -24,6 +24,33 @@
     vstsync = "yabridgectl sync";
     oc-deep = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY=$DEEPSEEK_KEY OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-chat' /home/plague/.npm-packages/bin/openclaude";
     oc-sonnet = "OPENAI_API_KEY=$ANTHROPIC_KEY /home/plague/.npm-packages/bin/openclaude";
+
+    # Ollama aliases
+    ollama-status = "sudo systemctl status ollama";
+    ollama-logs = "sudo journalctl -u ollama -f";
+    ollama-start = "sudo systemctl start ollama";
+    ollama-stop = "sudo systemctl stop ollama";
+    ollama-restart = "sudo systemctl restart ollama";
+
+    # Model-specific aliases
+    phi = "ollama run phi3:mini";
+    llama = "ollama run llama3.2:11b";
+    code = "ollama run codellama:13b";
+
+    # Quick chat with each model
+    phi-chat = "ollama run phi3:mini --verbose";
+    llama-chat = "ollama run llama3.2:11b --verbose";
+    code-chat = "ollama run codellama:13b --verbose";
+
+    # Pull commands
+    pull-phi = "ollama pull phi3:mini";
+    pull-llama = "ollama pull llama3.2:11b";
+    pull-code = "ollama pull codellama:13b";
+
+    # List and manage
+    ollama-list = "ollama list";
+    ollama-ps = "ollama ps";
+    ollama-rm = "ollama rm";
   };
 
   programs.bash = {
