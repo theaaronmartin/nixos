@@ -34,18 +34,24 @@
 
     # Model-specific aliases
     phi = "ollama run phi3:mini";
-    llama = "ollama run llama3.2:11b";
+    llama = "ollama run llama3.1:8b";
+    llama-small = "ollama run llama3.2:3b";
     code = "ollama run codellama:13b";
+    code-small = "ollama run codellama:7b";
 
     # Quick chat with each model
     phi-chat = "ollama run phi3:mini --verbose";
-    llama-chat = "ollama run llama3.2:11b --verbose";
+    llama-chat = "ollama run llama3.1:8b --verbose";
+    llama-small-chat = "ollama run llama3.2:3b --verbose";
     code-chat = "ollama run codellama:13b --verbose";
+    code-small-chat = "ollama run codellama:7b --verbose";
 
     # Pull commands
     pull-phi = "ollama pull phi3:mini";
-    pull-llama = "ollama pull llama3.2:11b";
+    pull-llama = "ollama pull llama3.1:8b";
+    pull-llama-small = "ollama pull llama3.2:3b";
     pull-code = "ollama pull codellama:13b";
+    pull-code-small = "ollama pull codellama:7b";
 
     # List and manage
     ollama-list = "ollama list";
