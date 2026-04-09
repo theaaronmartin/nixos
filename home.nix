@@ -27,8 +27,6 @@
     oc-god = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY=$DEEPSEEK_KEY OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-reasoner' /home/plague/.npm-packages/bin/openclaude";
     oc-sonnet = "OPENAI_API_KEY=$ANTHROPIC_KEY /home/plague/.npm-packages/bin/openclaude";
     oc-code = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_BASE_URL='http://localhost:11434/v1' OPENAI_MODEL=qwen-14b-smol:latest /home/plague/.npm-packages/bin/openclaude";
-
-    coder = "OLLAMA_API_BASE='http://127.0.0.1:11434' aider --model ollama/qwen-14b-smol:latest";
   };
 
   programs.bash = {
@@ -58,8 +56,9 @@
   xdg.configFile."wezterm".source =
     config.lib.file.mkOutOfStoreSymlink "/home/plague/nixos-config/dotfiles/wezterm";
 
-  # List user-specific packages (LSPs, CLI tools)
+  # List user-specific packages (LSPs, CLI tools, personal tools)
   home.packages = with pkgs; [
+    # Development tools
     ripgrep
     fd
     gcc
@@ -69,16 +68,12 @@
     yaml-language-server
     biome
     clang-tools
-    reaper
-    wget
-    curl
-    git
-    fastfetch
-    libreoffice-qt-fresh
-    hunspell
-    hunspellDicts.en_US-large
     nodejs_20
-    aider-chat
+
+    # Personal tools
+    fastfetch
+    vim
+    opencode
   ];
 
 }

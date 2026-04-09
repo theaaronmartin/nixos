@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ ... }:
 {
   users.users.plague = {
     isNormalUser = true;
@@ -13,16 +13,6 @@
       "docker"
       "i2c"
       "input"
-    ];
-    packages = with pkgs; [
-      vim
-      vesktop
-      bambu-studio
-      feather
-      nicotine-plus
-      parted
-      thunderbird
-      opencode
     ];
   };
 

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, pkgs-unstable, ... }: {
+{
   imports = [
     ./hardware-configuration.nix
     ./modules/boot.nix
@@ -15,12 +15,19 @@
     ./modules/star-citizen.nix
     ./modules/games.nix
     ./modules/ollama.nix
+    ./modules/base.nix
   ];
 
   networking.hostName = "NIXCORE";
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.trusted-users = [ "root" "plague" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  nix.settings.trusted-users = [
+    "root"
+    "plague"
+  ];
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.11";

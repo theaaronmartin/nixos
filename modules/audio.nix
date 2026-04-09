@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
 
   security.rtkit.enable = true;
@@ -6,11 +6,11 @@
   environment.systemPackages = [
     pkgs.pipewire.jack
     pkgs.wineWowPackages.staging
+    pkgs.reaper
     (pkgs.stdenv.mkDerivation {
       pname = "decent-sampler-manual";
       version = "1.17.1";
 
-      # PASTE THE PATH YOU GOT FROM STEP 1 HERE
       src = ./Decent_Sampler-1.17.1-Linux-Static-x86_64.tar.gz;
 
       nativeBuildInputs = [
@@ -18,7 +18,6 @@
         pkgs.wrapGAppsHook3
       ];
 
-      # Even 'static' builds need these core Linux windowing libs
       buildInputs = [
         pkgs.alsa-lib
         pkgs.freetype
@@ -45,28 +44,6 @@
         runHook postInstall
       '';
     })
-    (pkgs.buildFHSEnv {
-      name = "ni-zone";
-      targetPkgs =
-        pkgs: with pkgs; [
-          wineWowPackages.staging
-          winetricks
-          gnutls
-          libgpg-error
-          p11-kit
-          zlib
-          libxml2
-          libxslt
-          icu
-          nss
-          nspr
-          expat
-        ];
-      runScript = pkgs.writeScript "ni-zone-init" ''
-        export PS1="(ni-zone) \u@\h:\w\$ "
-        exec bash
-      '';
-    })
   ];
 
   security.pam.loginLimits = [
@@ -89,7 +66,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    jack.enable = true; # Critical for REAPER's performance
+    jack.enable = true;
 
     # Pro Audio latency tweaks
     extraConfig.pipewire."92-low-latency" = {
