@@ -71,7 +71,7 @@
     Group = lib.mkForce "media";
     UMask = "0002";
     ReadWritePaths = [
-      "/mnt/media/Audio Books"
+      "/mnt/media/Audio\\ Books"
       "/mnt/media/Downloads/complete"
     ];
     ProtectSystem = lib.mkForce "soft";
