@@ -27,7 +27,7 @@
     oc-sonnet = "OPENAI_API_KEY=$ANTHROPIC_KEY /home/plague/.npm-packages/bin/openclaude";
     oc-llama = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_BASE_URL='http://localhost:11434/v1' OPENAI_MODEL=llama3.1:8b /home/plague/.npm-packages/bin/openclaude";
     oc-phi = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_BASE_URL='http://localhost:11434/v1' OPENAI_MODEL=phi3:mini /home/plague/.npm-packages/bin/openclaude";
-    oc-code = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_BASE_URL='http://localhost:11434/v1' OPENAI_MODEL=qwen-14-smol:latest /home/plague/.npm-packages/bin/openclaude";
+    oc-code = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_BASE_URL='http://localhost:11434/v1' OPENAI_MODEL=qwen-14b-smol:latest /home/plague/.npm-packages/bin/openclaude";
 
     coder = "OLLAMA_API_BASE='http://127.0.0.1:11434' aider --model ollama/qwen2.5-coder:7b";
 
