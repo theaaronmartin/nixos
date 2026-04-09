@@ -1,6 +1,12 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to agents when working with code in this repository.
+
+## Executive Autonomy
+- You are expected to solve problems, not report them.
+- If a file path is unknown, use `find` or `glob`. 
+- If a group ID is mentioned, find its definition in `users.nix` or `security.nix` before proceeding.
+- **NEVER** ask the user to provide output from a command you have the power to run yourself.
 
 ## Key Commands
 
