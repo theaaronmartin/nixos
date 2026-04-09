@@ -24,42 +24,11 @@
 
     # OpenClaude aliases
     oc-deep = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY=$DEEPSEEK_KEY OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-chat' /home/plague/.npm-packages/bin/openclaude";
+    oc-god = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY=your_key OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-reasoner'/home/plague/.npm-packages/bin/openclaude";
     oc-sonnet = "OPENAI_API_KEY=$ANTHROPIC_KEY /home/plague/.npm-packages/bin/openclaude";
-    oc-llama = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_BASE_URL='http://localhost:11434/v1' OPENAI_MODEL=llama3.1:8b /home/plague/.npm-packages/bin/openclaude";
-    oc-phi = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_BASE_URL='http://localhost:11434/v1' OPENAI_MODEL=phi3:mini /home/plague/.npm-packages/bin/openclaude";
     oc-code = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_BASE_URL='http://localhost:11434/v1' OPENAI_MODEL=qwen-14b-smol:latest /home/plague/.npm-packages/bin/openclaude";
 
-    coder = "OLLAMA_API_BASE='http://127.0.0.1:11434' aider --model ollama/qwen2.5-coder:7b";
-
-    # Ollama aliases
-    ollama-status = "sudo systemctl status ollama";
-    ollama-logs = "sudo journalctl -u ollama -f";
-    ollama-start = "sudo systemctl start ollama";
-    ollama-stop = "sudo systemctl stop ollama";
-    ollama-restart = "sudo systemctl restart ollama";
-
-    # Model-specific aliases
-    phi = "ollama run phi3:mini";
-    llama = "ollama run llama3.1:8b";
-    llama-small = "ollama run llama3.2:3b";
-    code = "ollama run qwen2.5-coder:7b";
-
-    # Quick chat with each model
-    phi-chat = "ollama run phi3:mini --verbose";
-    llama-chat = "ollama run llama3.1:8b --verbose";
-    llama-small-chat = "ollama run llama3.2:3b --verbose";
-    code-chat = "ollama run qwen2.5-coder:7b --verbose";
-
-    # Pull commands
-    pull-phi = "ollama pull phi3:mini";
-    pull-llama = "ollama pull llama3.1:8b";
-    pull-llama-small = "ollama pull llama3.2:3b";
-    pull-code = "ollama pull qwen2.5-coder:7b";
-
-    # List and manage
-    ollama-list = "ollama list";
-    ollama-ps = "ollama ps";
-    ollama-rm = "ollama rm";
+    coder = "OLLAMA_API_BASE='http://127.0.0.1:11434' aider --model ollama/qwen-14b-smol:latest";
   };
 
   programs.bash = {
