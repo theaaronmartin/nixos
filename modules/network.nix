@@ -3,12 +3,6 @@
 
   networking.networkmanager.enable = true;
 
-  networking.hosts = {
-    "127.0.0.1" = [
-      # "modules-cdn.eac-prod.on.epicgames.com"
-    ];
-  };
-
   networking.firewall = {
     enable = true;
     checkReversePath = "loose";

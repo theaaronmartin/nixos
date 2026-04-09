@@ -35,6 +35,8 @@
 
   powerManagement.cpuFreqGovernor = "performance";
 
+  # May not be necessary - legacy fallback for proprietary software with hardcoded library paths
+  # Useful for Wine/Proton, proprietary audio tools (NI zone), etc.
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     stdenv.cc.cc.lib

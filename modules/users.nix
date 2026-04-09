@@ -22,6 +22,7 @@
       nicotine-plus
       parted
       thunderbird
+      opencode
     ];
   };
 

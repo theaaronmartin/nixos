@@ -61,6 +61,25 @@
   # Env file for Navidrome secrets
   systemd.services.navidrome.serviceConfig.EnvironmentFile = "/var/lib/navidrome/navidrome.env";
 
+  services.audiobookshelf = {
+    enable = true;
+    host = "0.0.0.0";
+    port = 8000;
+  };
+
+  systemd.services.audiobookshelf.serviceConfig = {
+    Group = lib.mkForce "media";
+    UMask = "0002";
+    ReadWritePaths = [
+      "/mnt/media/Audio Books"
+      "/mnt/media/Downloads/complete"
+    ];
+    ProtectSystem = lib.mkForce "soft";
+    ProtectHome = lib.mkForce false;
+  };
+
+  networking.firewall.allowedTCPPorts = [ 8000 ];
+
   # Group permissions and Arr stack write paths
   users.groups.media = {
     gid = lib.mkForce 989;
@@ -71,6 +90,7 @@
       "radarr"
       "sonarr"
       "navidrome"
+      "audiobookshelf"
     ];
   };
 
@@ -109,6 +129,7 @@
     "d /mnt/media_02/Downloads          0775 plague media -"
     "d /mnt/media_02/Downloads/complete 0775 plague media -"
     "d /mnt/media_02/Downloads/incomplete 0775 plague media -"
+    "d /mnt/media/Audio\\ Books 0775 plague media -"
   ];
 
   users.users.sabnzbd.extraGroups = [ "media" ];
