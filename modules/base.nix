@@ -1,13 +1,13 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    # Core utilities from users.nix and home.nix
     parted
     wget
     curl
     git
+    vim
+    tmux
 
-    # Additional core utilities
     btop
     tree
     file
@@ -16,7 +16,5 @@
     unzip
     zip
     p7zip
-    tmux
   ];
 }
-
