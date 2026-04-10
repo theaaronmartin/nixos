@@ -16,6 +16,7 @@
     ./modules/games.nix
     ./modules/ollama.nix
     ./modules/base.nix
+    ./modules/dev.nix
   ];
 
   networking.hostName = "NIXCORE";

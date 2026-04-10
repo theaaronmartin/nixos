@@ -1,5 +1,9 @@
 { pkgs, ... }:
 {
+  imports = [
+    ./modules/hm-dev.nix
+  ];
+
   home.stateVersion = "25.11";
 
   home.sessionVariables = {
