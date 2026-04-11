@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ ... }:
 {
 
   networking.networkmanager.enable = true;
@@ -13,10 +13,10 @@
       4533
     ];
 
-    extraCommands = ''
-      iptables -C -A FORWARD -i docker0 -j ACCEPT
-      iptables -C -A FORWARD -o docker0 -j ACCEPT
-    '';
+    # extraCommands = ''
+    #   iptables -C -A FORWARD -i docker0 -j ACCEPT
+    #   iptables -C -A FORWARD -o docker0 -j ACCEPT
+    # '';
   };
 
   # Docker Engine

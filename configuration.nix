@@ -20,6 +20,8 @@
   ];
 
   networking.hostName = "NIXCORE";
+  networking.nftables.enable = true;
+  networking.firewall.checkReversePath = "loose";
 
   nix.settings.experimental-features = [
     "nix-command"
