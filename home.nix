@@ -27,6 +27,9 @@
     oc-god = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_API_KEY=$DEEPSEEK_KEY OPENAI_BASE_URL='https://api.deepseek.com/v1' OPENAI_MODEL='deepseek-reasoner' /home/plague/.npm-packages/bin/openclaude";
     oc-sonnet = "OPENAI_API_KEY=$ANTHROPIC_KEY /home/plague/.npm-packages/bin/openclaude";
     oc-gemma = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_BASE_URL='http://localhost:11434/v1' OPENAI_MODEL=nixgemma:latest /home/plague/.npm-packages/bin/openclaude";
+
+    # Openrgb aliases
+    set-colors = "openrgb --device 0 --mode static --color FF0026 --device 1 --mode static --color FF0026 --device 2 --mode direct --color FF0026 --device 3 --zone 1 --size 30 --zone 2 --size 30 --mode static --color 5D00FF";
   };
 
   programs.bash = {
