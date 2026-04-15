@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -27,4 +28,11 @@
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.11";
+
+  # Intel CPU
+  hardware.cpu.intel.updateMicrocode = true;
+
+  # Intel Arc GPU
+  services.xserver.videoDrivers = [ "modesetting" ];
+  hardware.graphics.extraPackages = with pkgs; [ intel-media-driver ];
 }
