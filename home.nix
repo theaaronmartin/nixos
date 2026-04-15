@@ -19,7 +19,8 @@
   ];
 
   home.shellAliases = {
-    nix-switch = "sudo nixos-rebuild switch --flake ~/nixos-config#NIXCORE";
+    nixcore-switch = "sudo nixos-rebuild switch --flake ~/nixos#NIXCORE";
+    shell-switch = "sudo nixos-rebuild switch --flake ~/nixos#SHELL";
     nix-clean = "sudo nix-collect-garbage -d";
 
     # OpenClaude aliases

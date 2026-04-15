@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -15,7 +15,17 @@
   ];
 
   networking.hostName = "SHELL";
+
+  environment.etc."wsl.conf".text = ''
+    [boot]
+    systemd=true
+
+    [user]
+    default=plague
+  '';
   networking.nftables.enable = true;
+  networking.networkmanager.enable = lib.mkForce false;
+  networking.firewall.enable = lib.mkForce false;
 
   nix.settings.experimental-features = [
     "nix-command"
