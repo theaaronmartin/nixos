@@ -30,7 +30,24 @@
         specialArgs = { inherit inputs pkgs-unstable; };
 
         modules = [
-          ./configuration.nix
+          ./hosts/NIXCORE
+          inputs.home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.plague = import ./home.nix;
+          }
+        ];
+      };
+
+      nixosConfigurations.SHELL = nixpkgs.lib.nixosSystem {
+        system = hostPlatform;
+
+        specialArgs = { inherit inputs pkgs-unstable; };
+
+        modules = [
+          ./hosts/SHELL
           inputs.home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
