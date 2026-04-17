@@ -30,8 +30,11 @@
   services.flatpak.enable = true;
 
   # Add flatpak export directories to XDG_DATA_DIRS
-  # Using lib.mkAfter to append to existing XDG_DATA_DIRS
-  environment.sessionVariables.XDG_DATA_DIRS = lib.mkAfter "/var/lib/flatpak/exports/share:/home/plague/.local/share/flatpak/exports/share";
+  # Append to existing XDG_DATA_DIRS list
+  environment.sessionVariables.XDG_DATA_DIRS = lib.mkAfter [
+    "/var/lib/flatpak/exports/share"
+    "/home/plague/.local/share/flatpak/exports/share"
+  ];
 
   # Desktop applications from users.nix and home.nix
   environment.systemPackages = with pkgs; [
