@@ -1,5 +1,6 @@
 { config, ... }:
 {
+  programs.wezterm.enable = true;
   programs.neovim = {
     enable = true;
     defaultEditor = true;
