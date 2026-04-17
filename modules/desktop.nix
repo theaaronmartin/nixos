@@ -7,7 +7,10 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.kdePackages.xdg-desktop-portal-kde ];
+    extraPortals = [
+      pkgs.kdePackages.xdg-desktop-portal-kde
+      pkgs.xdg-desktop-portal-gtk
+    ];
     config.common.default = "kde";
   };
 
@@ -22,6 +25,15 @@
 
   # Browser
   programs.firefox.enable = true;
+
+  # Flatpak support
+  services.flatpak.enable = true;
+  services.flatpak.remotes = [
+    {
+      name = "flathub";
+      location = "https://flathub.org/repo/flathub.flatpakrepo";
+    }
+  ];
 
   # Desktop applications from users.nix and home.nix
   environment.systemPackages = with pkgs; [
