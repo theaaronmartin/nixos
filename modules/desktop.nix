@@ -28,12 +28,6 @@
 
   # Flatpak support
   services.flatpak.enable = true;
-  services.flatpak.remotes = [
-    {
-      name = "flathub";
-      location = "https://flathub.org/repo/flathub.flatpakrepo";
-    }
-  ];
 
   # Desktop applications from users.nix and home.nix
   environment.systemPackages = with pkgs; [
