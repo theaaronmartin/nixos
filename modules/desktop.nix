@@ -29,6 +29,11 @@
   # Flatpak support
   services.flatpak.enable = true;
 
+  # Add flatpak export directories to XDG_DATA_DIRS
+  environment.sessionVariables = {
+    XDG_DATA_DIRS = "$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:/home/plague/.local/share/flatpak/exports/share";
+  };
+
   # Desktop applications from users.nix and home.nix
   environment.systemPackages = with pkgs; [
     vesktop
