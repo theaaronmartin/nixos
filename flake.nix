@@ -1,5 +1,5 @@
 {
-  description = "NIXCORE - Plague's Production Config";
+  description = "Plague's NixOS configurations: NIXCORE (desktop) and SHELL (laptop)";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
@@ -14,7 +14,13 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      ...
+    }@inputs:
     let
       hostPlatform = "x86_64-linux";
 
@@ -23,7 +29,8 @@
         config.allowUnfree = true;
         config.cudaSupport = true;
       };
-    in {
+    in
+    {
       nixosConfigurations.NIXCORE = nixpkgs.lib.nixosSystem {
         system = hostPlatform;
 
