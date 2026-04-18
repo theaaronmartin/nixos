@@ -6,10 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Apply config changes to the running system
-sudo nixos-rebuild switch --flake ~/nixos-config#NIXCORE
+sudo nixos-rebuild switch --flake ~/nixos#{NIXCORE/SHELL}
 
 # Shorthand alias (defined in home.nix)
-nix-switch
+nixcore-switch
+shell-switch
 
 # Garbage collect old generations
 sudo nix-collect-garbage -d   # alias: nix-clean
@@ -18,12 +19,12 @@ sudo nix-collect-garbage -d   # alias: nix-clean
 nix flake check
 
 # Build without switching (useful for checking errors)
-sudo nixos-rebuild build --flake ~/nixos-config#NIXCORE
+sudo nixos-rebuild build --flake ~/nixos#{NIXCORE/SHELL}
 ```
 
 ## Architecture
 
-This is a single-host NixOS flake config for the machine `NIXCORE` (x86_64-linux).
+This is a single-host NixOS flake config for the machines `NIXCORE` & `SHELL` (x86_64-linux).
 
 **Flake inputs:**
 - `nixpkgs` → `nixos-25.11` (stable) — used for most system packages
