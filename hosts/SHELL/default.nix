@@ -12,6 +12,7 @@
     ../../modules/desktop.nix
     ../../modules/base.nix
     ../../modules/dev.nix
+    ../../modules/work.nix
   ];
 
   networking.hostName = "SHELL";
