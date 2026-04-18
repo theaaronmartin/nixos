@@ -12,5 +12,6 @@
     clang-tools
     nodejs_20
     opencode
+    cmake
   ];
 }
