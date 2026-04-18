@@ -31,6 +31,9 @@
 
     # Openrgb aliases
     set-colors = "openrgb --device 0 --mode static --color FF0026 --device 1 --mode static --color FF0026 --device 2 --mode direct --color FF0026 --device 3 --zone 1 --size 30 --zone 2 --size 30 --mode static --color 5D00FF";
+
+    # DayZ Launcher
+    dayz = "steam-run $HOME/Games/arma3-unix-launcher/build/src/dayz-linux-launcher/dayz-linux-launcher";
   };
 
   programs.bash = {
