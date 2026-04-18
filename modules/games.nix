@@ -39,7 +39,6 @@ in
   environment.systemPackages = with pkgs; [
     steam-run
     mangohud
-    arma3-unix-launcher
 
     lutris
     protonup-qt
