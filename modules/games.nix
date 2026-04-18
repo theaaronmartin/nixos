@@ -3,26 +3,27 @@
 let
   starsector-env = pkgs.buildFHSEnv {
     name = "starsector-env";
-    targetPkgs = pkgs: with pkgs; [
-      xorg.libX11
-      xorg.libXext
-      xorg.libXcursor
-      xorg.libXrandr
-      xorg.libXrender
-      xorg.libXxf86vm
-      xorg.libXtst
-      xorg.libXi
-      xorg.libXinerama
+    targetPkgs =
+      pkgs: with pkgs; [
+        xorg.libX11
+        xorg.libXext
+        xorg.libXcursor
+        xorg.libXrandr
+        xorg.libXrender
+        xorg.libXxf86vm
+        xorg.libXtst
+        xorg.libXi
+        xorg.libXinerama
 
-      zlib
-      glib
-      
-      # Graphics & Sound
-      libGL
-      alsa-lib
-      openal
-      fontconfig
-    ];
+        zlib
+        glib
+
+        # Graphics & Sound
+        libGL
+        alsa-lib
+        openal
+        fontconfig
+      ];
     runScript = "./starsector.sh";
   };
 in
@@ -38,10 +39,11 @@ in
   environment.systemPackages = with pkgs; [
     steam-run
     mangohud
+    arma3-unix-launcher
 
     lutris
     protonup-qt
-    
+
     # Updated launcher using the surgical environment
     (writeShellScriptBin "play-starsector" ''
       cd /mnt/games/starsector
