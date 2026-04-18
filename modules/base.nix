@@ -7,6 +7,7 @@
     git
     vim
     tmux
+    jq
 
     btop
     tree
