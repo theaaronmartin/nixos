@@ -55,6 +55,7 @@
       if [ -f ~/.config/secrets.env ]; then
           source ~/.config/secrets.env
       fi
+      setopt NO_CASE_GLOB
     '';
   };
 
