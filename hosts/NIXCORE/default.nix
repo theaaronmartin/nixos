@@ -20,6 +20,8 @@
     ../../modules/dev.nix
   ];
 
+  users.users.plague.shell = pkgs.zsh;
+
   networking.hostName = "NIXCORE";
   networking.nftables.enable = true;
   networking.firewall.checkReversePath = "loose";
@@ -69,6 +71,9 @@
     "amd_pstate=passive"
     "amd_pstate.epp=performance"
   ];
-  boot.kernelModules = [ "zenpower" "msr" ];
+  boot.kernelModules = [
+    "zenpower"
+    "msr"
+  ];
   boot.blacklistedKernelModules = [ "k10temp" ];
 }

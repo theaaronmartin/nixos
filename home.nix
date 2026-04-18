@@ -45,6 +45,19 @@
     '';
   };
 
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+    historySubstringSearch.enable = true;
+    initExtra = ''
+      if [ -f ~/.config/secrets.env ]; then
+          source ~/.config/secrets.env
+      fi
+    '';
+  };
+
   home.packages = with pkgs; [
     fastfetch
   ];
