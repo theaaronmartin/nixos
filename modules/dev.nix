@@ -13,5 +13,7 @@
     nodejs_20
     opencode
     cmake
+    gnumake
+    pkg-config
   ];
 }
