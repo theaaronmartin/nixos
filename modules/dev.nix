@@ -15,5 +15,6 @@
     cmake
     gnumake
     pkg-config
+    curl.dev
   ];
 }
