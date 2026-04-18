@@ -51,7 +51,7 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     historySubstringSearch.enable = true;
-    initExtra = ''
+    initContent = ''
       if [ -f ~/.config/secrets.env ]; then
           source ~/.config/secrets.env
       fi
