@@ -1,5 +1,5 @@
-{ pkgs-unstable, ... }:
-
+# { pkgs-unstable, ... }:
+#
 # {
 #   services.ollama = {
 #     enable = true;

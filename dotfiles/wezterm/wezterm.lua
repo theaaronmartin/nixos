@@ -17,22 +17,12 @@ config.keys = {
         key = "V",
         mods = "CTRL|SHIFT",
         action = act.PasteFrom("Clipboard"),
-    },
-    -- {
-    -- 	key = "v",
-    -- 	mods = "CTRL",
-    -- 	action = act.PasteFrom("Clipboard"),
-    -- },
-    -- {
-    -- 	key = "v",
-    -- 	mods = "CTRL",
-    -- 	action = act.PasteFrom("PrimarySelection"),
-    -- },
+    }
 }
 
 config.background = {
     {
-        source = { File = "/home/plague/nixos-config/dotfiles/assets/ghost_in_the_shell.png" },
+        source = { File = home_dir .. "/nixos/dotfiles/assets/ghost_in_the_shell.png" },
         width = "Cover",
         height = "Cover",
         hsb = { brightness = 0.5 },
