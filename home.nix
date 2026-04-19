@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  osConfig,
   ...
 }:
 {
@@ -36,13 +37,13 @@
     }
 
     # --- Host-specific Aliases ---
-    (lib.mkIf (config.networking.hostName == "NIXCORE") {
+    (lib.mkIf (osConfig.networking.hostName == "NIXCORE") {
       nix-switch = "sudo nixos-rebuild switch --flake ~/nixos#NIXCORE";
       set-colors = "openrgb --device 0 --mode static --color FF0026 --device 1 --mode static --color FF0026 --device 2 --mode direct --color FF0026 --device 3 --zone 1 --size 30 --zone 2 --size 30 --mode static --color 5D00FF";
       dayz = "steam-run ${config.home.homeDirectory}/Games/arma3-unix-launcher/build/src/dayz-linux-launcher/dayz-linux-launcher";
     })
 
-    (lib.mkIf (config.networking.hostName == "SHELL") {
+    (lib.mkIf (osConfig.networking.hostName == "SHELL") {
       nix-switch = "sudo nixos-rebuild switch --flake ~/nixos#SHELL";
     })
   ];
