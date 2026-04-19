@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -13,31 +13,12 @@
     ../../modules/base.nix
     ../../modules/dev.nix
     ../../modules/work.nix
+    ../../modules/wsl.nix
   ];
-
 
   networking.hostName = "SHELL";
 
-  environment.etc."wsl.conf".text = ''
-    [boot]
-    systemd=true
-
-    [user]
-    default=plague
-  '';
   networking.nftables.enable = true;
-  networking.networkmanager.enable = lib.mkForce false;
-  networking.firewall.enable = lib.mkForce false;
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-  nix.settings.trusted-users = [
-    "root"
-    "plague"
-  ];
-  nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.11";
 

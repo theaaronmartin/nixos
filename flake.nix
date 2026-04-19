@@ -42,7 +42,10 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              hostName = "NIXCORE";
+            };
             home-manager.users.plague = import ./home.nix;
           }
         ];
@@ -59,7 +62,10 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              hostName = "SHELL";
+            };
             home-manager.users.plague = import ./home.nix;
           }
         ];

@@ -20,20 +20,9 @@
     ../../modules/dev.nix
   ];
 
-
   networking.hostName = "NIXCORE";
   networking.nftables.enable = true;
   networking.firewall.checkReversePath = "loose";
-
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
-  nix.settings.trusted-users = [
-    "root"
-    "plague"
-  ];
-  nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.11";
 
