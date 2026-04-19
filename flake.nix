@@ -15,14 +15,14 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-      ...
+    { self
+    , nixpkgs
+    , nixpkgs-unstable
+    , ...
     }@inputs:
     let
       hostPlatform = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${hostPlatform};
 
       pkgs-unstable = import nixpkgs-unstable {
         system = hostPlatform;
@@ -50,6 +50,7 @@
         };
     in
     {
+      formatter.${hostPlatform} = pkgs.nixpkgs-fmt;
       nixosConfigurations.NIXCORE = makeHostConfig ./hosts/NIXCORE;
       nixosConfigurations.SHELL = makeHostConfig ./hosts/SHELL;
     };

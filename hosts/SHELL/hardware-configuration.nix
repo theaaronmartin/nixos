@@ -12,65 +12,75 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/lib/modules/6.6.87.2-microsoft-standard-WSL2" =
-    { device = "none";
+    {
+      device = "none";
       fsType = "overlay";
     };
 
   fileSystems."/mnt/wsl" =
-    { device = "none";
+    {
+      device = "none";
       fsType = "tmpfs";
     };
 
   fileSystems."/usr/lib/wsl/drivers" =
-    { device = "drivers";
+    {
+      device = "drivers";
       fsType = "9p";
     };
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/57fc3039-ba62-4fa2-a884-de92821e221a";
+    {
+      device = "/dev/disk/by-uuid/57fc3039-ba62-4fa2-a884-de92821e221a";
       fsType = "ext4";
     };
 
   fileSystems."/mnt/wslg" =
-    { device = "none";
+    {
+      device = "none";
       fsType = "tmpfs";
     };
 
   fileSystems."/mnt/wslg/distro" =
-    { device = "none";
+    {
+      device = "none";
       fsType = "none";
       options = [ "bind" ];
     };
 
   fileSystems."/usr/lib/wsl/lib" =
-    { device = "none";
+    {
+      device = "none";
       fsType = "overlay";
     };
 
   fileSystems."/mnt/wslg/doc" =
-    { device = "none";
+    {
+      device = "none";
       fsType = "overlay";
     };
 
   fileSystems."/tmp/.X11-unix" =
-    { device = "/mnt/wslg/.X11-unix";
+    {
+      device = "/mnt/wslg/.X11-unix";
       fsType = "none";
       options = [ "bind" ];
     };
 
   fileSystems."/mnt/c" =
-    { device = "C:\134";
+    {
+      device = "C:\134";
       fsType = "9p";
     };
 
   fileSystems."/mnt/wslg/run/user/1000" =
-    { device = "tmpfs";
+    {
+      device = "tmpfs";
       fsType = "tmpfs";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/12116fc0-a27b-428b-a494-b2f3ce06b0d1"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/12116fc0-a27b-428b-a494-b2f3ce06b0d1"; }];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
