@@ -36,15 +36,6 @@
     dayz = "steam-run $HOME/Games/arma3-unix-launcher/build/src/dayz-linux-launcher/dayz-linux-launcher";
   };
 
-  programs.bash = {
-    enable = true;
-    initExtra = ''
-      if [ -f ~/.config/secrets.env ]; then
-          source ~/.config/secrets.env
-      fi
-    '';
-  };
-
   programs.zsh = {
     enable = true;
     enableCompletion = true;
