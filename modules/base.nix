@@ -23,8 +23,6 @@
     vim
     tmux
     jq
-
-    btop
     tree
     file
     which

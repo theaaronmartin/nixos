@@ -1,8 +1,8 @@
-{ pkgs
-, lib
+{ lib
 , config
 , osConfig
 , ...
+
 }:
 {
   imports = [
@@ -60,8 +60,4 @@
       setopt NO_CASE_GLOB
     '';
   };
-
-  home.packages = with pkgs; [
-    fastfetch
-  ];
 }
