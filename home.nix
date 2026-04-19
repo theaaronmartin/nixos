@@ -1,8 +1,15 @@
-{ pkgs, lib, hostName, ... }:
+{
+  pkgs,
+  lib,
+  hostName,
+  ...
+}:
 {
   imports = [
     ./modules/hm-dev.nix
   ];
+
+  programs.home-manager.enable = true;
 
   home.stateVersion = "25.11";
 
