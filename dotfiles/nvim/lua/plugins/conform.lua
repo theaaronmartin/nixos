@@ -4,8 +4,14 @@ return {
         notify_on_error = false,
         format_on_save = function(bufnr)
             local disable_filetypes = { c = true, cpp = true }
-            if disable_filetypes[vim.bo[bufnr].filetype] then
+            local ft = vim.bo[bufnr].filetype
+            if disable_filetypes[ft] then
                 return nil
+            elseif ft == 'nix' then
+                return {
+                    timeout_ms = 500,
+                    lsp_format = 'never',
+                }
             else
                 return {
                     timeout_ms = 500,
@@ -15,7 +21,7 @@ return {
         end,
         formatters_by_ft = {
             lua = { 'stylua' },
-            nix = { 'nixfmt' },
+            nix = { 'nixpkgs_fmt' },
             javascript = { 'biome', stop_after_first = true },
             typescript = { 'biome', stop_after_first = true },
             yaml = { 'yamlfmt' },
