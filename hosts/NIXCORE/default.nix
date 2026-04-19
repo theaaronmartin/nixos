@@ -18,6 +18,7 @@
     ../../modules/ollama.nix
     ../../modules/base.nix
     ../../modules/dev.nix
+    ../../modules/tui.nix
   ];
 
   networking.hostName = "NIXCORE";

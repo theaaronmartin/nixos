@@ -14,6 +14,7 @@
     ../../modules/dev.nix
     ../../modules/work.nix
     ../../modules/wsl.nix
+    ../../modules/tui.nix
   ];
 
   networking.hostName = "SHELL";
