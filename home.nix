@@ -9,14 +9,19 @@
     ./modules/hm-dev.nix
   ];
 
-  programs.home-manager.enable = true;
-
   home.stateVersion = "25.11";
 
-  programs.nodejs = {
-    enable = true;
-    packages = [ "openclaude" ];
+  home.sessionVariables = {
+    NODE_PATH = "$HOME/.npm-packages/lib/node_modules";
   };
+
+  home.file.".npmrc".text = ''
+    prefix=/home/plague/.npm-packages
+  '';
+
+  home.sessionPath = [
+    "$HOME/.npm-packages/bin"
+  ];
 
   home.shellAliases = lib.mkMerge [
     # --- Common Aliases ---
