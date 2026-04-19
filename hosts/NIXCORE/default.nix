@@ -20,7 +20,6 @@
     ../../modules/dev.nix
   ];
 
-  users.users.plague.shell = pkgs.zsh;
 
   networking.hostName = "NIXCORE";
   networking.nftables.enable = true;

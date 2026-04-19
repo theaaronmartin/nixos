@@ -15,7 +15,6 @@
     ../../modules/work.nix
   ];
 
-  users.users.plague.shell = pkgs.zsh;
 
   networking.hostName = "SHELL";
 
