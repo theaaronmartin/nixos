@@ -6,6 +6,7 @@
     gcc
     lua-language-server
     nil
+    nixfmt-rfc-style
     typescript-language-server
     yaml-language-server
     biome
