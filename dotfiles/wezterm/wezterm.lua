@@ -34,7 +34,7 @@ config.background = {
     },
 }
 
-config.default_prog = { "bash" }
+config.default_prog = { "zsh" }
 config.color_scheme = "functional-purple"
 config.initial_cols = 120
 config.initial_rows = 28

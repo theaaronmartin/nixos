@@ -7,6 +7,7 @@ return {
                 workspaces = {
                     { "~/Code/playwright", { ".git" } },
                     "~/Code",
+                    { "~",                 { ".git" } },
                 },
                 patterns = { ".git" },
             })
