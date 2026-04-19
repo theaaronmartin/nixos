@@ -29,46 +29,28 @@
         config.allowUnfree = true;
         config.cudaSupport = true;
       };
+
+      makeHostConfig =
+        hostModule:
+        nixpkgs.lib.nixosSystem {
+          system = hostPlatform;
+          specialArgs = { inherit inputs pkgs-unstable; };
+          modules = [
+            hostModule
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+              };
+              home-manager.users.plague = import ./home.nix;
+            }
+          ];
+        };
     in
     {
-      nixosConfigurations.NIXCORE = nixpkgs.lib.nixosSystem {
-        system = hostPlatform;
-
-        specialArgs = { inherit inputs pkgs-unstable; };
-
-        modules = [
-          ./hosts/NIXCORE
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-              hostName = "NIXCORE";
-            };
-            home-manager.users.plague = import ./home.nix;
-          }
-        ];
-      };
-
-      nixosConfigurations.SHELL = nixpkgs.lib.nixosSystem {
-        system = hostPlatform;
-
-        specialArgs = { inherit inputs pkgs-unstable; };
-
-        modules = [
-          ./hosts/SHELL
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-              hostName = "SHELL";
-            };
-            home-manager.users.plague = import ./home.nix;
-          }
-        ];
-      };
+      nixosConfigurations.NIXCORE = makeHostConfig ./hosts/NIXCORE;
+      nixosConfigurations.SHELL = makeHostConfig ./hosts/SHELL;
     };
 }

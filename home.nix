@@ -1,7 +1,7 @@
 {
   pkgs,
   lib,
-  hostName,
+  config,
   ...
 }:
 {
@@ -12,11 +12,11 @@
   home.stateVersion = "25.11";
 
   home.sessionVariables = {
-    NODE_PATH = "$HOME/.npm-packages/lib/node_modules";
+    NODE_PATH = "${config.home.homeDirectory}/.npm-packages/lib/node_modules";
   };
 
   home.file.".npmrc".text = ''
-    prefix=/home/plague/.npm-packages
+    prefix=${config.home.homeDirectory}/.npm-packages
   '';
 
   home.sessionPath = [
@@ -35,15 +35,14 @@
       oc-gemma = "CLAUDE_CODE_USE_OPENAI=1 OPENAI_BASE_URL='http://localhost:11434/v1' OPENAI_MODEL=nixgemma:latest openclaude";
     }
 
-    # --- NIXCORE specific Aliases ---
-    (lib.mkIf (hostName == "NIXCORE") {
+    # --- Host-specific Aliases ---
+    (lib.mkIf (config.networking.hostName == "NIXCORE") {
       nix-switch = "sudo nixos-rebuild switch --flake ~/nixos#NIXCORE";
       set-colors = "openrgb --device 0 --mode static --color FF0026 --device 1 --mode static --color FF0026 --device 2 --mode direct --color FF0026 --device 3 --zone 1 --size 30 --zone 2 --size 30 --mode static --color 5D00FF";
-      dayz = "steam-run $HOME/Games/arma3-unix-launcher/build/src/dayz-linux-launcher/dayz-linux-launcher";
+      dayz = "steam-run ${config.home.homeDirectory}/Games/arma3-unix-launcher/build/src/dayz-linux-launcher/dayz-linux-launcher";
     })
 
-    # --- SHELL specific Aliases ---
-    (lib.mkIf (hostName == "SHELL") {
+    (lib.mkIf (config.networking.hostName == "SHELL") {
       nix-switch = "sudo nixos-rebuild switch --flake ~/nixos#SHELL";
     })
   ];
