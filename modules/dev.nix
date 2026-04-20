@@ -22,5 +22,7 @@
     rust-analyzer
     rustfmt
     clippy
+    openssl
+    openssl.dev
   ];
 }
