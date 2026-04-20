@@ -17,5 +17,10 @@
     gnumake
     pkg-config
     curl.dev
+    rustc
+    cargo
+    rust-analyzer
+    rustfmt
+    clippy
   ];
 }

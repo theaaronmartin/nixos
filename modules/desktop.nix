@@ -38,7 +38,7 @@
 
   # Desktop applications from users.nix and home.nix
   environment.systemPackages = with pkgs; [
-    vesktop
+    discord-canary
     feather
     nicotine-plus
     thunderbird
