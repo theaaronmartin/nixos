@@ -21,7 +21,7 @@
     curl
     git
     vim
-    tmux
+    zellij
     jq
     tree
     file
