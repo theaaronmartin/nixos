@@ -60,4 +60,20 @@
       setopt NO_CASE_GLOB
     '';
   };
+
+  # The Background Sync Service (Multi-host safe)
+  systemd.user.services.notes-autosync = {
+    Unit.Description = "Auto-sync notes repository";
+    Service = {
+      Type = "oneshot";
+      # Using -C ensures it works regardless of where your shell is sitting
+      ExecStart = "${pkgs.git}/bin/git -C %h/notes pull --rebase && ${pkgs.git}/bin/git -C %h/notes add . && ${pkgs.git}/bin/git -C %h/notes commit -m 'auto-sync from ${builtins.getEnv "HOSTNAME"}' && ${pkgs.git}/bin/git -C %h/notes push";
+    };
+  };
+
+  systemd.user.timers.notes-autosync = {
+    Timer.OnUnitActiveSec = "15m";
+    Timer.OnBootSec = "5m";
+    Install.WantedBy = [ "timers.target" ];
+  };
 }
