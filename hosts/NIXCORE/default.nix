@@ -19,6 +19,7 @@
     ../../modules/base.nix
     ../../modules/dev.nix
     ../../modules/tui.nix
+    ../../modules/syncthing.nix
   ];
 
   networking.hostName = "NIXCORE";
