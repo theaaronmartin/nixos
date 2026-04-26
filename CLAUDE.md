@@ -6,10 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Apply config changes to the running system
-sudo nixos-rebuild switch --flake ~/nixos-config#NIXCORE
+sudo nixos-rebuild switch --flake ~/nixos#{NIXCORE/SHELL}
 
 # Shorthand alias (defined in home.nix)
-nix-switch
+nixcore-switch
+shell-switch
 
 # Garbage collect old generations
 sudo nix-collect-garbage -d   # alias: nix-clean
@@ -18,12 +19,14 @@ sudo nix-collect-garbage -d   # alias: nix-clean
 nix flake check
 
 # Build without switching (useful for checking errors)
-sudo nixos-rebuild build --flake ~/nixos-config#NIXCORE
+sudo nixos-rebuild build --flake ~/nixos#{NIXCORE/SHELL}
 ```
 
 ## Architecture
 
-This is a single-host NixOS flake config for the machine `NIXCORE` (x86_64-linux).
+This is a multi-host NixOS flake config for two machines (both x86_64-linux):
+- **NIXCORE** — desktop (AMD CPU, NVIDIA GPU)
+- **SHELL** — laptop/WSL (Intel CPU, Intel Arc GPU)
 
 **Flake inputs:**
 - `nixpkgs` → `nixos-25.11` (stable) — used for most system packages
@@ -32,26 +35,33 @@ This is a single-host NixOS flake config for the machine `NIXCORE` (x86_64-linux
 - `nix-citizen` — provides the Star Citizen runner
 
 **Entry points:**
-- `flake.nix` — defines inputs and the single `nixosConfigurations.NIXCORE` output
-- `configuration.nix` — imports all system modules; minimal itself
-- `home.nix` — home-manager config for user `plague`: shell aliases, dotfile symlinks via `mkOutOfStoreSymlink`, and user packages (LSPs, dev tools)
+- `flake.nix` — defines inputs and both `nixosConfigurations.NIXCORE` and `nixosConfigurations.SHELL` outputs
+- `hosts/NIXCORE/default.nix` — NIXCORE-specific config: kernel params, NVIDIA setup, hardware overrides; imports shared modules
+- `hosts/SHELL/default.nix` — SHELL-specific config: WSL setup, Intel GPU, networking overrides; imports shared modules
+- `home.nix` — shared home-manager config for user `plague` on both hosts: shell aliases, dotfile symlinks via `mkOutOfStoreSymlink`, and user packages
 
-**System modules** (`modules/`):
+**Shared modules** (`modules/`):
 
 | File | Purpose |
 |------|---------|
 | `audio.nix` | PipeWire (JACK + ALSA + PulseAudio), low-latency tuning, DecentSampler derivation, NI zone FHS env, PAM real-time limits |
-| `boot.nix` | systemd-boot, zen kernel, AMD CPU tuning, NVIDIA kernel params |
+| `base.nix` | Common system packages (parted, wget, etc.) shared across all hosts |
+| `boot.nix` | systemd-boot config |
 | `desktop.nix` | KDE Plasma 6 + SDDM, Firefox, Vesktop autostart systemd unit |
+| `dev.nix` | Developer tools (ripgrep, fd, etc.) available system-wide |
 | `games.nix` | Steam, GameMode, Lutris, ProtonUp, Starsector FHS wrapper |
-| `hardware.nix` | AMD microcode, NVIDIA drivers (proprietary), nvidia-container-toolkit, i2c, performance governor |
+| `hardware.nix` | Hardware enablement shared across hosts |
+| `hm-dev.nix` | Home-manager dev environment: WezTerm, Neovim |
+| `locale.nix` | Timezone (`America/Los_Angeles`) and locale settings |
 | `media.nix` | Jellyfin (NVIDIA HW accel override), Radarr, Sonarr, SABnzbd, Navidrome — all in the `media` group (GID 989) |
 | `network.nix` | NetworkManager, Docker, Nginx Proxy Manager OCI container, firewall rules |
+| `ollama.nix` | Ollama LLM service (currently commented out) |
 | `openrgb.nix` | OpenRGB service, ee1004 unbind workaround, boot color systemd oneshot |
 | `security.nix` | YubiKey (yubioath, pcscd, udev rules) |
 | `star-citizen.nix` | Star Citizen runner from nix-citizen flake, sysctl tuning |
 | `storage.nix` | Mounts for `/mnt/media_01`, `/mnt/media_02`, `/mnt/games`; MergerFS pool at `/mnt/media` |
 | `users.nix` | `plague` user definition, group memberships, user packages, SSH agent |
+| `work.nix` | Work-related packages (teams-for-linux, etc.) — imported by SHELL |
 
 **Dotfiles** (`dotfiles/`): Neovim and WezTerm configs are symlinked (not copied) into `~/.config` using `mkOutOfStoreSymlink`, so edits take effect immediately without rebuilding. Starship config is read at build time via `builtins.readFile`.
 

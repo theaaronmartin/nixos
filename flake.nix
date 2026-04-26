@@ -1,5 +1,5 @@
 {
-  description = "NIXCORE - Plague's Production Config";
+  description = "Plague's NixOS configurations: NIXCORE (desktop) and SHELL (laptop)";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
@@ -14,31 +14,44 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, ... }@inputs:
+  outputs =
+    { self
+    , nixpkgs
+    , nixpkgs-unstable
+    , ...
+    }@inputs:
     let
       hostPlatform = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${hostPlatform};
 
       pkgs-unstable = import nixpkgs-unstable {
         system = hostPlatform;
         config.allowUnfree = true;
         config.cudaSupport = true;
       };
-    in {
-      nixosConfigurations.NIXCORE = nixpkgs.lib.nixosSystem {
-        system = hostPlatform;
 
-        specialArgs = { inherit inputs pkgs-unstable; };
-
-        modules = [
-          ./configuration.nix
-          inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-            home-manager.users.plague = import ./home.nix;
-          }
-        ];
-      };
+      makeHostConfig =
+        hostModule:
+        nixpkgs.lib.nixosSystem {
+          system = hostPlatform;
+          specialArgs = { inherit inputs pkgs-unstable; };
+          modules = [
+            hostModule
+            inputs.home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+              };
+              home-manager.users.plague = import ./home.nix;
+            }
+          ];
+        };
+    in
+    {
+      formatter.${hostPlatform} = pkgs.nixpkgs-fmt;
+      nixosConfigurations.NIXCORE = makeHostConfig ./hosts/NIXCORE;
+      nixosConfigurations.SHELL = makeHostConfig ./hosts/SHELL;
     };
 }

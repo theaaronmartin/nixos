@@ -1,8 +1,9 @@
-{ ... }:
+{ pkgs, ... }:
 {
-  users.users.plague = {
+  users.users.plague = with pkgs; {
     isNormalUser = true;
     description = "Plague";
+    shell = zsh;
     extraGroups = [
       "networkmanager"
       "wheel"
