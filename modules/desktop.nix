@@ -45,6 +45,7 @@
     libreoffice-qt-fresh
     hunspell
     hunspellDicts.en_US-large
+    obsidian
   ];
 
   # Vesktop Autostart

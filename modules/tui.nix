@@ -6,5 +6,6 @@
     ncdu
     cmatrix
     fastfetch
+    basalt
   ];
 }
