@@ -1,0 +1,7 @@
+keys:
+    - &plague age1463hmp8cqgwyem6z9hf0mmx590pz24majxw2anx7zy8gcju4juds4gklys
+creation_rules:
+    - path_regex: secrets/.*\.yaml$
+      key_groups:
+        - age:
+            - *plague

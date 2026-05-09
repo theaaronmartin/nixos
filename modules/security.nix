@@ -5,6 +5,7 @@
       GDK_BACKEND=x11 exec ${pkgs.yubioath-flutter}/bin/yubioath-flutter "$@"
     '')
     yubikey-manager # Useful CLI tool (ykman) for troubleshooting
+    sops
   ];
 
   # Required services for Yubikey hardware communication

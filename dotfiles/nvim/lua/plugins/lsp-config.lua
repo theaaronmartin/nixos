@@ -57,6 +57,33 @@ return {
                 capabilities = capabilities,
                 cmd = { "clangd", "--background-index" },
             })
+            -- Gleam LSP (Provided by the 'gleam' binary in your flake)
+            lspconfig.gleam.setup({
+                capabilities = capabilities,
+            })
+
+            -- Tailwind CSS LSP
+            lspconfig.tailwindcss.setup({
+                capabilities = capabilities,
+                -- This is crucial: tell Tailwind to look at Gleam files
+                filetypes = { "html", "javascript", "gleam" },
+                -- Optional: If using Lustre, you might want to add specific trigger patterns
+                settings = {
+                    tailwindCSS = {
+                        includeLanguages = {
+                            gleam = "html"
+                        },
+                    },
+                },
+            })
+
+            -- OCaml LSP (Managed via Opam for compiler sync)
+            pcall(function()
+                lspconfig.ocamllsp.setup({
+                    capabilities = capabilities,
+                    cmd = { "ocamllsp" },
+                })
+            end)
 
             -- Add nil (Nix LSP) if available
             pcall(function()

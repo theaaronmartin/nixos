@@ -1,7 +1,6 @@
 { lib
 , config
 , osConfig
-, pkgs
 , ...
 }:
 {
@@ -54,10 +53,13 @@
     syntaxHighlighting.enable = true;
     historySubstringSearch.enable = true;
     initContent = ''
-      if [ -f ~/.config/secrets.env ]; then
-          source ~/.config/secrets.env
-      fi
+      export ANTHROPIC_KEY=$(cat /run/secrets/anthropic_key)
+      export DEEPSEEK_KEY=$(cat /run/secrets/deepseek_key)
       setopt NO_CASE_GLOB
+
+      [[ ! -r '${config.home.homeDirectory}/.opam/opam-init/init.zsh' ]] || source '${config.home.homeDirectory}/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+    
+      eval "$(direnv hook zsh)"
     '';
   };
 }

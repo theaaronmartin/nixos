@@ -27,6 +27,7 @@ return {
             yaml = { 'yamlfmt' },
             c = { 'clang_format' },
             cpp = { 'clang_format' },
+            ocaml = { 'ocamlformat' },
         },
         formatters = {
             yamlfmt = {

@@ -1,5 +1,4 @@
-{ config
-, pkgs
+{ pkgs
 , lib
 , ...
 }:
@@ -12,6 +11,7 @@
   environment.systemPackages = with pkgs; [
     jellyfin-ffmpeg
     nvtopPackages.full
+    managarr
   ];
 
   # CRITICAL: Hardware acceleration overrides for Jellyfin
@@ -58,7 +58,7 @@
   };
 
   # Env file for Navidrome secrets
-  systemd.services.navidrome.serviceConfig.EnvironmentFile = "/var/lib/navidrome/navidrome.env";
+  # systemd.services.navidrome.serviceConfig.EnvironmentFile = "/var/lib/navidrome/navidrome.env";
 
   services.audiobookshelf = {
     enable = true;
