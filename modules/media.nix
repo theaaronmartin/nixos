@@ -57,9 +57,6 @@
     };
   };
 
-  # Env file for Navidrome secrets
-  # systemd.services.navidrome.serviceConfig.EnvironmentFile = "/var/lib/navidrome/navidrome.env";
-
   services.audiobookshelf = {
     enable = true;
     host = "0.0.0.0";

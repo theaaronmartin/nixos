@@ -26,7 +26,7 @@
     };
     templates."navidrome.env" = {
       content = ''
-        ND_LASTFM_ENABLED=true
+        ND_LASTFM_ENABLED=TRUE
         ND_LASTFM_APIKEY=${config.sops.placeholder.nd_lastfm_apikey}
         ND_LASTFM_SECRET=${config.sops.placeholder.nd_lastfm_secret}
       '';
