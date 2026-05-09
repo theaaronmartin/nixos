@@ -53,9 +53,10 @@
       MusicFolder = "/mnt/media/Music";
       ScanSchedule = "@every 6h";
       TranscodingCacheSize = "1GB";
-      LastFM.Enabled = true;
     };
   };
+
+  systemd.services.navidrome.serviceConfig.EnvironmentFile = "/var/lib/navidrome/navidrome.env";
 
   services.audiobookshelf = {
     enable = true;
