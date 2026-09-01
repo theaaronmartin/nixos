@@ -23,11 +23,23 @@
   # Printing
   services.printing.enable = true;
 
-  # Browser
+  # added 2026-09-01: mDNS so network printers are discoverable without manual
+  # setup. This is what Bonjour was doing on the Windows install.
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+  };
+
+  # Browser. Waterfox (the laptop's daily driver) is not in nixpkgs; Firefox is
+  # the chosen replacement. If you ever want the real thing, Flatpak is already
+  # enabled below: flatpak install flathub net.waterfox.Waterfox
   programs.firefox.enable = true;
 
   # Flatpak support
   services.flatpak.enable = true;
+
+  # added 2026-09-01: udev rules for flashing QMK boards.
+  hardware.keyboard.qmk.enable = true;
 
   # Add flatpak export directories to XDG_DATA_DIRS
   # Append to existing XDG_DATA_DIRS list
@@ -46,23 +58,33 @@
     hunspell
     hunspellDicts.en_US-large
     obsidian
+    localsend
+    beets
+    picard
+    rsgain
+    croc
+
+    # --- added 2026-09-01 -------------------------------------------------
+    # Daily drivers on the Windows laptop that were missing from the config.
+    signal-desktop # running now and in Windows startup
+
+    kdePackages.kdeconnect-kde # you use Phone Link on Windows
+    kdePackages.okular
+    wl-clipboard
+
+    wireguard-tools
+    networkmanager-openvpn
+    qmk
+
+    # Raster + vector editing. Bambu Studio is installed via Flatpak instead.
+    gimp3
+    inkscape
+
+    # Windows VST2/VST3 bridge for REAPER. audio.nix already ships
+    # wineWowPackages.staging; this is what actually lets Fractal/Neural DSP
+    # style Windows plugins load. Note iLok-authorized plugins still will not
+    # work - PACE has no Linux support.
+    yabridge
+    yabridgectl
   ];
-
-  # Vesktop Autostart
-  systemd.user.services.vesktop = {
-    description = "Vesktop Discord Client (Delayed Start)";
-    wantedBy = [ "graphical-session.target" ];
-    partOf = [ "graphical-session.target" ];
-
-    serviceConfig = {
-      ExecStartPre = "${pkgs.coreutils}/bin/sleep 5";
-      ExecStart = ''
-        ${pkgs.vesktop}/bin/vesktop \
-          --start-minimized \
-          --enable-features=UseOzonePlatform,WebRTCPipeWireCapturer \
-          --ozone-platform=wayland
-      '';
-      Restart = "on-failure";
-    };
-  };
 }

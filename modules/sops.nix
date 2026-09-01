@@ -1,4 +1,12 @@
-{ pkgs, config, ... }: {
+# Base secrets: the age key plus the two API keys home.nix reads in zsh init.
+# Media-stack secrets live in sops-media.nix (NIXCORE only).
+#
+# NOTE for a fresh SHELL install: home.nix unconditionally cats
+# /run/secrets/anthropic_key and /run/secrets/deepseek_key from zsh. Get the age
+# keyfile below onto the machine BEFORE the first nixos-rebuild, or activation
+# fails and every new shell throws.
+{ pkgs, ... }:
+{
   environment.systemPackages = with pkgs; [ sops ];
 
   sops = {
@@ -7,30 +15,12 @@
     secrets = {
       anthropic_key = {
         sopsFile = ../secrets/secrets.yaml;
+        owner = "plague";
       };
       deepseek_key = {
         sopsFile = ../secrets/secrets.yaml;
+        owner = "plague";
       };
-      radarr_key = {
-        sopsFile = ../secrets/secrets.yaml;
-      };
-      sonarr_key = {
-        sopsFile = ../secrets/secrets.yaml;
-      };
-      nd_lastfm_apikey = {
-        sopsFile = ../secrets/secrets.yaml;
-      };
-      nd_lastfm_secret = {
-        sopsFile = ../secrets/secrets.yaml;
-      };
-    };
-    templates."navidrome.env" = {
-      content = ''
-        ND_LASTFM_ENABLED=TRUE
-        ND_LASTFM_APIKEY=${config.sops.placeholder.nd_lastfm_apikey}
-        ND_LASTFM_SECRET=${config.sops.placeholder.nd_lastfm_secret}
-      '';
-      path = "/var/lib/navidrome/navidrome.env";
     };
   };
 }

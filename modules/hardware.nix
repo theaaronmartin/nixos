@@ -5,10 +5,14 @@
     enable32Bit = true;
   };
 
-  services.power-profiles-daemon.enable = false;
+  # Power policy moved out 2026-09-01. This module used to force the
+  # "performance" governor and disable power-profiles-daemon on every host that
+  # imported it, which is wrong for a laptop. See power-desktop.nix (NIXCORE)
+  # and laptop.nix (SHELL).
 
-  powerManagement.cpuFreqGovernor = "performance";
-
+  # NIXCORE hardware (ThrustMaster 244f:0101). Harmless elsewhere. Note the
+  # laptop's MOTU M Series is 07fd:000b and is USB class-compliant, so it needs
+  # no rule of its own.
   services.udev.extraRules = ''
     SUBSYSTEMS=="usb", ATTRS{idVendor}=="244f", ATTRS{idProduct}=="0101", MODE="0660", GROUP="audio"
   '';
