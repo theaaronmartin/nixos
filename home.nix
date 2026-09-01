@@ -19,6 +19,7 @@
   '';
 
   home.sessionPath = [
+    "$HOME/.local/bin"
     "$HOME/.npm-packages/bin"
   ];
 
@@ -55,6 +56,7 @@
     initContent = ''
       export ANTHROPIC_KEY=$(cat /run/secrets/anthropic_key)
       export DEEPSEEK_KEY=$(cat /run/secrets/deepseek_key)
+      export PATH="$HOME/.local/bin:$PATH"
       setopt NO_CASE_GLOB
 
       [[ ! -r '${config.home.homeDirectory}/.opam/opam-init/init.zsh' ]] || source '${config.home.homeDirectory}/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null

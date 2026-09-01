@@ -103,6 +103,7 @@
 
   systemd.services.sonarr.serviceConfig = {
     Group = lib.mkForce "media";
+    UMask = "0002";
     ReadWritePaths = [
       "/mnt/media/Shows"
       "/mnt/media/Downloads/complete"
@@ -135,4 +136,12 @@
     "video"
     "render"
   ];
+
+  # These services bind or scan paths under the mergerfs pool at /mnt/media.
+  # RequiresMountsFor implies both Requires= and After= on mnt-media.mount,
+  # so they wait for the pool rather than racing it during boot.
+  systemd.services.sonarr.unitConfig.RequiresMountsFor = "/mnt/media";
+  systemd.services.radarr.unitConfig.RequiresMountsFor = "/mnt/media";
+  systemd.services.audiobookshelf.unitConfig.RequiresMountsFor = "/mnt/media";
+  systemd.services.jellyfin.unitConfig.RequiresMountsFor = "/mnt/media";
 }

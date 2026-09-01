@@ -1,9 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 {
   services.hardware.openrgb = {
     enable = true;
     motherboard = "amd";
-    package = pkgs.openrgb-with-all-plugins;
+    package = pkgs-unstable.openrgb-with-all-plugins;
   };
 
   boot.kernelModules = [
@@ -42,14 +42,18 @@
       ExecStartPre = "${pkgs.coreutils}/bin/sleep 5"; # Brief pause to let server detect all HID/I2C devices
       ExecStart =
         let
-          redish = "FF0026";
+          redish = "C80002";
           purpleish = "5D00FF";
-          bin = "${pkgs.openrgb-with-all-plugins}/bin/openrgb";
+          bin = "${pkgs-unstable.openrgb-with-all-plugins}/bin/openrgb";
         in
+        # 0: Kingston Fury DDR4 DRAM, 1: ASUS TUF RTX 3080, 2: NZXT Kraken X3
+          # 3: ASUS ROG Crosshair VIII, 4: Glorious Model O, 5: NZXT RGB & Fan Controller
         "${bin} --device 0 --mode static --color ${redish} "
         + "--device 1 --mode static --color ${redish} "
-        + "--device 2 --mode direct --color ${redish} "
-        + "--device 3 --zone 1 --size 30 --zone 2 --size 30 --mode static --color ${purpleish}";
+        + "--device 2 --mode static --color ${redish} "
+        + "--device 3 --mode static --color ${purpleish} "
+        + "--device 4 --mode static --color ${redish} "
+        + "--device 5 --mode static --color ${purpleish}";
     };
   };
 

@@ -47,6 +47,9 @@
       "minfreespace=10G"
       "fsname=mergerfs_media"
       "gid=989"
+      # assemble the pool only after its branch filesystems are mounted
+      "x-systemd.requires-mounts-for=/mnt/media_01"
+      "x-systemd.requires-mounts-for=/mnt/media_02"
     ];
   };
 
