@@ -12,11 +12,14 @@
 
   home.sessionVariables = {
     NODE_PATH = "${config.home.homeDirectory}/.npm-packages/lib/node_modules";
-  };
 
-  home.file.".npmrc".text = ''
-    prefix=${config.home.homeDirectory}/.npm-packages
-  '';
+    # npm's prefix rides an env var rather than a home-manager-managed ~/.npmrc. That
+    # file would be a read-only /nix/store symlink, and CodeArtifact's login script
+    # (npm config set --location=user) writes its 12 h token into the USER .npmrc --
+    # against a store symlink that fails with EROFS every time the token expires.
+    # Leaving ~/.npmrc unmanaged lets npm own it; this keeps the prefix regardless.
+    NPM_CONFIG_PREFIX = "${config.home.homeDirectory}/.npm-packages";
+  };
 
   home.sessionPath = [
     "$HOME/.local/bin"
