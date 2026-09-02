@@ -56,12 +56,15 @@
     initContent = ''
       export ANTHROPIC_KEY=$(cat /run/secrets/anthropic_key)
       export DEEPSEEK_KEY=$(cat /run/secrets/deepseek_key)
-      export PATH="$HOME/.local/bin:$PATH"
       setopt NO_CASE_GLOB
 
       [[ ! -r '${config.home.homeDirectory}/.opam/opam-init/init.zsh' ]] || source '${config.home.homeDirectory}/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
     
       eval "$(direnv hook zsh)"
+
+      # fnm shims node ahead of the pinned nodejs_20 (see modules/dev.nix);
+      # --use-on-cd honours a project's .node-version/.nvmrc on entry.
+      eval "$(fnm env --use-on-cd --shell zsh)"
     '';
   };
 }

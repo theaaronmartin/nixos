@@ -18,7 +18,14 @@
     clang-tools
     nodejs_20
     opencode
-    claude-code
+    # claude-code is deliberately NOT installed from nixpkgs: the /nix/store
+    # copy is read-only, so `claude update` can't write and it drifts behind.
+    # Use the native installer instead -- it self-updates into
+    # ~/.local/share/claude, already on PATH via home.sessionPath.
+    #
+    # NOTE: this module is imported by BOTH hosts. Before the first rebuild on a
+    # host that has not migrated yet, run `claude install` there while the old
+    # nixpkgs build is still present. SHELL migrated 2026-09-02; NIXCORE has not.
     cmake
     gnumake
     pkg-config
