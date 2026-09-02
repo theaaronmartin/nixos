@@ -1,9 +1,37 @@
 { pkgs, pkgs-unstable, lib, ... }:
+let
+  # added 2026-09-02: SDDM login screen background. This is NOT the Plasma lock
+  # screen (that one is per-user in ~/.config/kscreenlockerrc, set from System
+  # Settings -> Security & Privacy -> Screen Locking). SDDM has no GUI for it:
+  # breeze's theme.conf hardcodes `background` as an absolute path into the
+  # read-only store, and SDDM's theme.conf.user override would have to live in
+  # that same unwritable directory. So copy the theme out of plasma-desktop and
+  # repoint it at our own wallpaper.
+  sddmBreezeCustom = pkgs.runCommandLocal "sddm-breeze-plague" { } ''
+    theme="$out/share/sddm/themes/breeze-plague"
+    mkdir -p "$(dirname "$theme")"
+    cp -r ${pkgs.kdePackages.plasma-desktop}/share/sddm/themes/breeze "$theme"
+    chmod -R u+w "$theme"
+    cp ${../dotfiles/assets/ghost_in_the_shell.png} "$theme/background.png"
+    sed -i "s|^background=.*|background=$theme/background.png|" "$theme/theme.conf"
+  '';
+in
 {
   # Graphical Environment
   services.xserver.enable = true;
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
+
+  # Full path rather than a bare theme name, so it does not have to be installed
+  # into systemPackages to be found under ThemeDir.
+  services.displayManager.sddm.theme = "${sddmBreezeCustom}/share/sddm/themes/breeze-plague";
+
+  # The sddm module only applies these when `theme` is the literal string
+  # "breeze", which the path above is not. Restore them by hand.
+  services.displayManager.sddm.settings.Theme = {
+    CursorTheme = "breeze_cursors";
+    CursorSize = 24;
+  };
 
   xdg.portal = {
     enable = true;
