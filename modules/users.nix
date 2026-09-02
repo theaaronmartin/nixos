@@ -16,7 +16,8 @@
       "input"
     ];
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGfu6dcgYwdJf9VerwwzTV5xhn034uY9Up3qTv71eA5o amartin@ultrasignup.com"
+      # SHELL (Dell Precision 3490) - generated 2026-09-02 after the Windows -> NixOS migration
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIANN0G6vR+bngScAqDKx+QB+cmNW1Wr2wp6LgMYvJD56 aaron@notaaron.com"
     ];
   };
 
