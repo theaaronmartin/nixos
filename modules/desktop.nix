@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, pkgs-unstable, lib, ... }:
 {
   # Graphical Environment
   services.xserver.enable = true;
@@ -62,7 +62,9 @@
     beets
     picard
     rsgain
-    croc
+    # v11 to match the Windows install; nixpkgs 25.11 ships 10.3.1 and the
+    # v10/v11 handshake is incompatible ("room not ready, maybe peer disconnected")
+    pkgs-unstable.croc
 
     # --- added 2026-09-01 -------------------------------------------------
     # Daily drivers on the Windows laptop that were missing from the config.
