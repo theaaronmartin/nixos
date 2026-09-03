@@ -69,6 +69,13 @@ in
   # added 2026-09-01: udev rules for flashing QMK boards.
   hardware.keyboard.qmk.enable = true;
 
+  # Your Phone Link replacement. This has to be the module rather than just the
+  # kdeconnect-kde package: discovery is a UDP broadcast on 1716 and pairing
+  # then runs over TCP, but network.nix keeps the firewall on with only 22
+  # open, so a bare package install can never see the phone. Enabling this
+  # opens 1714-1764 on both TCP and UDP, which is all it needs.
+  programs.kdeconnect.enable = true;
+
   # Add flatpak export directories to XDG_DATA_DIRS
   # Append to existing XDG_DATA_DIRS list
   environment.sessionVariables.XDG_DATA_DIRS = lib.mkAfter [
@@ -96,9 +103,12 @@ in
 
     # --- added 2026-09-01 -------------------------------------------------
     # Daily drivers on the Windows laptop that were missing from the config.
-    signal-desktop # running now and in Windows startup
+    # Signal Desktop hard-expires ~90 days after release and then refuses to
+    # start at all. nixpkgs 25.11 is pinned at 8.4.1 and even the branch tip
+    # only has 8.9.1, so stable is permanently behind the expiry window.
+    # Needs a `nix flake update nixpkgs-unstable` every couple of months.
+    pkgs-unstable.signal-desktop # running now and in Windows startup
 
-    kdePackages.kdeconnect-kde # you use Phone Link on Windows
     kdePackages.okular
     wl-clipboard
 
