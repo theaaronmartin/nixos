@@ -8,7 +8,8 @@
 # which force-disabled NetworkManager and the firewall. It could not boot bare
 # metal. The old WSL profile is preserved as
 # hardware-configuration.nix.wsl.bak and in git history if you ever want to
-# revive it as a separate SHELL-WSL host.
+# revive it as a separate SHELL-WSL host. (The .bak file has since been
+# deleted; it is in git history at bb5fba5, not on disk.)
 { inputs, ... }:
 {
   imports = [

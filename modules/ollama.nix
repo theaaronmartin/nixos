@@ -9,7 +9,23 @@
     # Optional optimizations for VRAM and throughput
     environmentVariables = {
       OLLAMA_FLASH_ATTENTION = "1";
+
+      # Deliberately q4_0, not q8_0. q8_0 roughly doubles KV-cache size, which
+      # on this 10 GB card pushed qwen3-14b-iq4xs off the GPU at every useful
+      # context (it spilled even at 6144). Measured 2026-09-04: 29.9 tok/s
+      # spilled vs 75.0 tok/s fully resident, for no accuracy gain we could
+      # detect. On 10 GB, spend VRAM on weights rather than KV precision.
       OLLAMA_KV_CACHE_TYPE = "q4_0";
+
+      # Ollama otherwise serves 4096 tokens regardless of what a model
+      # advertises, which is too small for agentic use (pi). Not visible in
+      # `ollama show` - only the CONTEXT column of `ollama ps` reveals it.
+      # Per-model `num_ctx` tags override this; this is the floor for anything
+      # untuned.
+      OLLAMA_CONTEXT_LENGTH = "12288";
+
+      # Default is 5m, which makes an idle agent pay a multi-GB reload.
+      OLLAMA_KEEP_ALIVE = "30m";
     };
 
     # Listen on localhost default port 11434
