@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }:
+{ pkgs, ... }:
 {
   programs.direnv = {
     enable = true;
@@ -18,10 +18,9 @@
     clang-tools
     nodejs_20
     opencode
-    # `pi` has no attribute in nixpkgs 25.11 -- it only exists on unstable
-    # (pi-coding-agent 0.84.2), so a bare `pi-coding-agent` here fails eval
-    # with `undefined variable`. Substitutes prebuilt; no source build.
-    pkgs-unstable.pi-coding-agent
+    # `pi` (pi-coding-agent) lives in ollama.nix instead: it is only useful
+    # where the local Ollama it talks to is running, and this module is
+    # imported by both hosts.
     # claude-code is deliberately NOT installed from nixpkgs: the /nix/store
     # copy is read-only, so `claude update` can't write and it drifts behind.
     # Use the native installer instead -- it self-updates into

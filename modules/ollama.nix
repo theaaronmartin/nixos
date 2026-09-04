@@ -1,6 +1,16 @@
 { pkgs-unstable, ... }:
 
 {
+  # The pi coding agent, which consumes the Ollama server below through
+  # ~/.pi/agent/models.json. It lives here rather than in dev.nix because
+  # dev.nix is imported by both hosts and pi's local models only exist where
+  # Ollama runs. Moved 2026-09-04.
+  #
+  # `pi` has no attribute in nixpkgs 25.11 -- it only exists on unstable
+  # (pi-coding-agent 0.84.2), so a bare `pi-coding-agent` fails eval with
+  # `undefined variable`. Substitutes prebuilt; no source build.
+  environment.systemPackages = [ pkgs-unstable.pi-coding-agent ];
+
   services.ollama = {
     enable = true;
     acceleration = "cuda"; # Automatically configures CUDA runtime & drivers
