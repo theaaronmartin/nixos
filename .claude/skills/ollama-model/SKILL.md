@@ -90,6 +90,14 @@ Provider-level settings that are already correct and should not be changed casua
 placeholder `"ollama"` (Ollama ignores it, but pi requires *some* credential before a model appears),
 and `compat.supportsDeveloperRole: false` because Ollama's OpenAI shim does not use that role.
 
+`compat.supportsReasoningEffort` is deliberately **`true`**. pi's generic Ollama guidance says to set
+it `false`, but that is wrong for this server: measured 2026-09-04 against
+`/v1/chat/completions`, `reasoning_effort: "none"` is the *only* way to actually stop Qwen3 from
+thinking. `think: false`, `enable_thinking: false`, `chat_template_kwargs.enable_thinking: false`
+and a `/no_think` suffix were all accepted and all still produced 400-1100 characters of reasoning.
+With it `true`, `pi --thinking off` works; with it `false`, pi cannot send the parameter and every
+request thinks.
+
 Verify with `pi --list-models`, then a real agentic task — not just a chat reply, since tool-calling
 is the thing that actually breaks:
 
@@ -107,6 +115,35 @@ everything. It is deliberately `q4_0`. `q8_0` was tried on 2026-09-04 and revert
 doubles KV size, which cost the 14B its GPU residency entirely (it spilled even at 6144 ctx), for no
 measurable accuracy gain — a 4-trial-per-model agentic file test found no difference between the 8B
 and 14B either way. On a 10 GB card, spend VRAM on weights, not KV precision.
+
+## Scripting pi (important)
+
+**Always redirect stdin when running `pi -p` non-interactively: `pi -p "..." < /dev/null`.**
+
+`pi -p` reads stdin even when the prompt is given as an argument. If stdin is an open pipe that
+never reaches EOF — which is exactly what happens over `ssh host "script"`, or from a CI runner —
+pi blocks forever with no output and no error. It looks identical to a hung model or a broken
+config, and it wasted a long debugging detour on 2026-09-04: Ollama's own log showed *zero*
+incoming requests during the "hangs", which is the tell. `< /dev/null` fixes it, and backgrounding
+with `&` masks it (bash gives background jobs `/dev/null`).
+
+## Skills in pi
+
+pi does not read `.claude/skills/`. It scans `~/.pi/agent/skills/`, `~/.agents/skills/`,
+`.pi/skills/` and `.agents/skills/`. This repo's `.pi/settings.json` points pi at the Claude Code
+directory so both harnesses share one copy:
+
+```json
+{ "skills": ["../.claude/skills"] }
+```
+
+Project-local settings load **only after the project is trusted**, so this works with `--approve`
+(per run) or after running `/trust` once in interactive pi (writes `~/.pi/agent/trust.json`).
+Untrusted, pi silently sees no skills. Verified working: `pi -p --approve` lists `media-triage`,
+`nixos-rebuild`, `ollama-model`.
+
+Note that `~/.pi/agent/models.json` and `settings.json` are **not** managed by the flake, so they do
+not sync between hosts the way this repo does.
 
 ## Notes
 
