@@ -126,5 +126,20 @@ in
     # work - PACE has no Linux support.
     yabridge
     yabridgectl
+
+    # --- added 2026-09-04 -------------------------------------------------
+    # Official Jellyfin desktop client. Decodes with mpv, so it direct-plays
+    # whatever the file already is and the server never transcodes.
+    #
+    # Firefox is the reason this is here. Jellyfin picks its playback method
+    # from a device profile the web client builds by probing the browser, and
+    # Firefox claimed HEVC support it could not deliver -- so Jellyfin copied
+    # the 10-bit HEVC video stream through untouched and playback froze a few
+    # seconds in, with no error on the server side. Disabling remuxing in the
+    # Jellyfin user policy does NOT prevent this: the web client requests
+    # stream-copy directly on the HLS endpoint and Jellyfin honours it.
+    # Verified 2026-09-04 the same files play fine on the TV (Litefin, direct
+    # play, zero ffmpeg processes) and via a forced transcode to 8-bit h264.
+    jellyfin-media-player
   ];
 }
