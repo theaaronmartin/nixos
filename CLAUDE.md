@@ -82,7 +82,7 @@ Multi-host NixOS flake for two x86_64-linux machines:
 | `mobile-dev.nix` | Android / React Native / Expo toolchain, `programs.adb` | SHELL |
 | `network.nix` | NetworkManager, OpenSSH, minimal firewall | both |
 | `openrgb.nix` | OpenRGB service, ee1004 unbind workaround, boot color oneshot | NIXCORE |
-| `ollama.nix` | Ollama CUDA service — **enabled**, see "Local LLMs" below | NIXCORE |
+| `ollama.nix` | Ollama CUDA service **and** the `pi` coding agent that consumes it — see "Local LLMs" below | NIXCORE |
 | `power-desktop.nix` | Desktop power policy / performance governor. Split from `hardware.nix` 2026-09-01 so it stops following SHELL | NIXCORE |
 | `proxy.nix` | Nginx Proxy Manager OCI container. Split from `network.nix` 2026-09-01 | NIXCORE |
 | `security.nix` | YubiKey (yubioath, pcscd, udev rules) | both |
@@ -134,6 +134,16 @@ read at build time with `builtins.readFile`.
   column of `ollama ps` reveals it.
 - `OLLAMA_KV_CACHE_TYPE` — kept at `q4_0`. `q8_0` was measured and rejected: on a 10 GB card it
   pushes the 14B off the GPU at every useful context (29.9 tok/s vs 75.0 tok/s fully resident).
+
+pi is declared here rather than in `dev.nix` so it does not follow SHELL, which runs no local models.
+
+pi's own config (`~/.pi/agent/`) is **not** managed by the flake, so it does not sync between hosts:
+- `models.json` — the `ollama` provider and the two context-tuned model tags
+- `settings.json` — `defaultProvider`/`defaultModel`
+- `auth.json` — Anthropic and DeepSeek keys, read with pi's `!command` form
+  (`"key": "!cat /run/secrets/anthropic_key"`). This reads the sops secret directly rather than
+  using `$ANTHROPIC_KEY`, because `home.nix` exports that variable only in *interactive* zsh — with
+  the env-var form, `pi auth check` reports `not_ready` in any script or non-interactive shell.
 
 See the `ollama-model` skill before adding a model.
 
