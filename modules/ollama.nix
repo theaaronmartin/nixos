@@ -9,7 +9,6 @@
     # Optional optimizations for VRAM and throughput
     environmentVariables = {
       OLLAMA_FLASH_ATTENTION = "1";
-
       # Deliberately q4_0, not q8_0. q8_0 roughly doubles KV-cache size, which
       # on this 10 GB card pushed qwen3-14b-iq4xs off the GPU at every useful
       # context (it spilled even at 6144). Measured 2026-09-04: 29.9 tok/s

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, pkgs-unstable, ... }:
 {
   programs.direnv = {
     enable = true;
@@ -18,6 +18,10 @@
     clang-tools
     nodejs_20
     opencode
+    # `pi` has no attribute in nixpkgs 25.11 -- it only exists on unstable
+    # (pi-coding-agent 0.84.2), so a bare `pi-coding-agent` here fails eval
+    # with `undefined variable`. Substitutes prebuilt; no source build.
+    pkgs-unstable.pi-coding-agent
     # claude-code is deliberately NOT installed from nixpkgs: the /nix/store
     # copy is read-only, so `claude update` can't write and it drifts behind.
     # Use the native installer instead -- it self-updates into
