@@ -32,6 +32,12 @@ in
     enable = true;
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
+
+    # Stop steam.sh spawning srt-logger for console-linux.txt; Discord's game
+    # detection picks it up as a "game" (see maybe_open_log in steam.sh).
+    package = pkgs.steam.override {
+      extraEnv.STEAM_RUNTIME_LOGGER = "0";
+    };
   };
 
   programs.gamemode.enable = true;
