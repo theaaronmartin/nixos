@@ -5,8 +5,16 @@
 
   environment.systemPackages = [
     pkgs.pipewire.jack
-    pkgs.wineWowPackages.staging
     pkgs.reaper
+
+    # Windows VST2/VST3 bridge for REAPER. Keeps the wine 9.21 that nixpkgs
+    # pins it to; yabridge does not work on wine 10+ (editors render but
+    # ignore all mouse input). Native Access needs wine 11 and therefore lives
+    # in modules/native-instruments.nix with its own wine. Note iLok-authorized
+    # plugins still will not work - PACE has no Linux support.
+    pkgs.yabridge
+    pkgs.yabridgectl
+
     (pkgs.stdenv.mkDerivation {
       pname = "decent-sampler-manual";
       version = "1.17.1";

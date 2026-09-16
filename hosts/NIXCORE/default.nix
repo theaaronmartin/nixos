@@ -15,6 +15,7 @@
     ../../modules/desktop.nix
     ../../modules/locale.nix
     ../../modules/audio.nix
+    ../../modules/native-instruments.nix
     ../../modules/security.nix
     ../../modules/star-citizen.nix
     ../../modules/games.nix

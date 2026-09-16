@@ -97,6 +97,7 @@ in
     beets
     picard
     rsgain
+    calibre
     # v11 to match the Windows install; nixpkgs 25.11 ships 10.3.1 and the
     # v10/v11 handshake is incompatible ("room not ready, maybe peer disconnected")
     pkgs-unstable.croc
@@ -120,12 +121,9 @@ in
     gimp3
     inkscape
 
-    # Windows VST2/VST3 bridge for REAPER. audio.nix already ships
-    # wineWowPackages.staging; this is what actually lets Fractal/Neural DSP
-    # style Windows plugins load. Note iLok-authorized plugins still will not
-    # work - PACE has no Linux support.
-    yabridge
-    yabridgectl
+    # yabridge moved to audio.nix on 2026-09-15. It has to be built against
+    # the same wine the plugin prefixes were created with, and that wine is
+    # defined there.
 
     # --- added 2026-09-04 -------------------------------------------------
     # Official Jellyfin desktop client. Decodes with mpv, so it direct-plays
