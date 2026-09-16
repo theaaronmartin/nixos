@@ -36,6 +36,7 @@
     ../../modules/dev.nix
     ../../modules/mobile-dev.nix
     ../../modules/work.nix
+    ../../modules/tuning.nix
     ../../modules/tui.nix
     ../../modules/syncthing.nix
     ../../modules/sops.nix

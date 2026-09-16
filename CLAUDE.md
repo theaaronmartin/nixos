@@ -92,9 +92,10 @@ Multi-host NixOS flake for two x86_64-linux machines:
 | `storage.nix` | Mounts for `/mnt/media_01`, `/mnt/media_02`, `/mnt/games`; MergerFS pool at `/mnt/media`; udisks2 | NIXCORE |
 | `syncthing.nix` | Declarative Syncthing devices and folders | both |
 | `tui.nix` | Terminal/TUI packages | both |
+| `tuning.nix` | Atlas ECU tuning suite, AppImage support, Tactrix Openport udev rules | SHELL |
 | `users.nix` | `plague` user, group memberships, SSH agent | both |
 | `work.nix` | Work packages (teams-for-linux, etc.) | SHELL |
-| `pkgs/` | Local package definitions — currently the pinned `libfprint-2-tod1-broadcom-cv3plus` driver | SHELL |
+| `pkgs/` | Local package definitions — the pinned `libfprint-2-tod1-broadcom-cv3plus` driver and the `atlas` AppImage wrapper | SHELL |
 
 Several modules were split apart on 2026-09-01 and carry header comments explaining exactly why.
 **Those comments are authoritative** — read the top of a module before changing it.
@@ -152,5 +153,10 @@ See the `ollama-model` skill before adding a model.
 - **Never set `KWIN_DRM_NO_AMS`** — it blanks the display on NVIDIA.
 - **The fingerprint reader needs the pinned `cv3plus` driver** in `modules/pkgs/`. The nixpkgs
   `libfprint-tod` downgrades the ControlVault firmware and bricks the chip.
+- **`programs.nix-ld` is not a substitute for an FHS wrapper.** Its library list in
+  `hardware.nix` is enough to *start* a foreign binary and misleading for that reason — the
+  Atlas AppImage's bundled JRE runs under it but then dies in `Toolkit.<clinit>` because the
+  list has no `libXrender`. Package foreign GUI binaries with `appimageTools`/`buildFHSEnv`
+  and declare their libs explicitly rather than extending the nix-ld list system-wide.
 - **NIXCORE has CPU boost disabled** as a stopgap from the 2026 freeze investigation (root cause was
   RAM, replaced 2026-09-03). Anything that falls back to CPU compute there is unusually slow.
