@@ -40,6 +40,7 @@
     ../../modules/tui.nix
     ../../modules/syncthing.nix
     ../../modules/sops.nix
+    ../../modules/usu-mint.nix # secret broker for web-automation-v2 (USU-1649)
     # ../../modules/games.nix   # Steam/Epic/Lutris. Note it hardcodes
     #                           # /mnt/games/starsector, which does not exist
     #                           # here - guard play-starsector before importing.
