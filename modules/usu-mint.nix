@@ -123,7 +123,7 @@ in
   # "required" (password AND touch) — spec §4.1, §4.4 step 6.
   security.pam.u2f = {
     enable = false; # keep the global default off: see the header comment
-    control = "sufficient";
+    control = "required";
     settings = {
       cue = true;
       authfile = "/etc/u2f_mappings"; # root-owned; a mapping under $HOME could be replaced by the agent
