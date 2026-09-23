@@ -5,10 +5,12 @@
 # sudo nixos-rebuild test --flake ~/nixos#SHELL first — activates without a boot entry).
 #
 # Deviations from the spec sketch, both deliberate:
-#   * pam_u2f is scoped to the sudo service only (security.pam.services.sudo.u2fAuth), NOT
-#     security.pam.u2f.enable — on 25.11 the global switch defaults u2fAuth ON for EVERY PAM
-#     service (login, screen lock, display manager), which with control = "sufficient" would
-#     make a touch alone unlock the machine and with "required" would lock every login to the key.
+#   * pam_u2f is scoped to the broker's OWN PAM service (`usu-mint`, selected per command by the
+#     sudoers `pam_service` Default), NOT security.pam.services.sudo.u2fAuth and NOT
+#     security.pam.u2f.enable. PAM policy is per service, never per command: the first put the
+#     key on EVERY sudo on the machine (5d49932..b0dd375, 2026-09-21 → 22: a plain `sudo` with
+#     the key unplugged failed even with the right password); the second on 25.11 defaults
+#     u2fAuth ON for every PAM service (login, screen lock, display manager).
 #   * COREPACK_ENABLE_DOWNLOAD_PROMPT=0 so corepack's first-run download of pnpm 11.5.0 does not
 #     stop on a confirmation prompt when a terminal is present.
 { config, pkgs, lib, ... }:
@@ -16,6 +18,7 @@ let
   brokerUser = "usu-mint";
   brokerHome = "/var/lib/usu-mint";
   caller = "plague";
+  pamService = "usu-mint"; # /etc/pam.d/usu-mint — the broker's verbs authenticate here, plain sudo does not
   # This channel's pkgs.pnpm is 10.x and the repo is engine-strict on pnpm@11.5.0 (packageManager).
   pnpm = "corepack pnpm@11.5.0";
   usage = "usage: usu-mint-token mint [--web rd] | config | seed [args] | update <sha> | export-ci-secret | set <dotted.path>";
@@ -115,12 +118,16 @@ in
       ];
     }
   ];
+  # pam_service is a per-command Default: sudo applies Defaults! in set_cmnd() before check_user()
+  # runs PAM (sudo 1.9.17p2 plugins/sudoers/sudoers.c:369, auth/pam.c:224).
   security.sudo.extraConfig = ''
     Defaults!${real} timestamp_timeout=0
+    Defaults!${real} pam_service="${pamService}"
   '';
 
-  # pam_u2f on sudo ONLY. Roll out with "sufficient" (touch OR password) to verify, then flip to
-  # "required" (password AND touch) — spec §4.1, §4.4 step 6.
+  # pam_u2f on the broker's PAM service ONLY — password AND touch ("required"; rolled out
+  # "sufficient" → "required" per spec §4.1, §4.4 step 6). The `sudo` service keeps the host
+  # default (fingerprint OR password), so everyday sudo never sees the key.
   security.pam.u2f = {
     enable = false; # keep the global default off: see the header comment
     control = "required";
@@ -131,5 +138,10 @@ in
       appid = "pam://SHELL";
     };
   };
-  security.pam.services.sudo.u2fAuth = true;
+  security.pam.services.${pamService} = {
+    u2fAuth = true;
+    # fprintAuth defaults to services.fprintd.enable (on, this laptop); off here, or a touch plus a
+    # fingerprint would satisfy the stack without the password.
+    fprintAuth = false;
+  };
 }
