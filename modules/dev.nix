@@ -57,6 +57,7 @@
     fnm
     pnpm
     yarn
+    bun
 
     go
     gopls
