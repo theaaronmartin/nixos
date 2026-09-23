@@ -59,6 +59,8 @@
     initContent = ''
       export ANTHROPIC_KEY=$(cat /run/secrets/anthropic_key)
       export DEEPSEEK_KEY=$(cat /run/secrets/deepseek_key)
+      # TYPESAFE_API_KEY, not TYPESAFE_KEY: it is the name the TypeSafe SDKs look for.
+      export TYPESAFE_API_KEY=$(cat /run/secrets/typesafe_key)
       setopt NO_CASE_GLOB
 
       [[ ! -r '${config.home.homeDirectory}/.opam/opam-init/init.zsh' ]] || source '${config.home.homeDirectory}/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
