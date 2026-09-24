@@ -16,17 +16,24 @@
 # Version bumps:
 #   nix-prefetch-url --name Atlas_Linux_amd64.AppImage <url>
 #   nix hash convert --hash-algo sha256 --to sri <printed hash>
+#
+# Expected noise when test-launching against a project: "Problem compiling"
+# warnings for PowerPC:BE:32:VLE:MPC5746R and v850e3/v850e1m. Upstream's jar
+# omits SPE_APU.sinc and vsx.sinc, which the MPC5746R SLEIGH specs @include (the
+# V850 failure has no logged cause, and all of its includes are present). The
+# bundled Ghidra file list was identical in 2026.2.7 and 2026.2.8. This is not
+# the FHS wrapper or the read-only store, so don't try to fix it here.
 { lib
 , appimageTools
 , fetchurl
 }:
 let
   pname = "atlas";
-  version = "2026.2.7";
+  version = "2026.2.8";
 
   src = fetchurl {
     url = "https://github.com/motorsportsresearch/atlas-public/releases/download/${version}/Atlas_Linux_amd64.AppImage";
-    hash = "sha256-vntPoREN9fT34PC332L+kxXfxdr94a1tI3hENPILY/c=";
+    hash = "sha256-ujov2YZKr3sNw6Pu+2KLHBDxyalngb60JHiDrUBUqaw=";
   };
 
   # Pulled out separately so the .desktop entry and icon can be lifted from the
