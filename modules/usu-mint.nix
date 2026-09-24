@@ -13,6 +13,14 @@
 #     u2fAuth ON for every PAM service (login, screen lock, display manager).
 #   * COREPACK_ENABLE_DOWNLOAD_PROMPT=0 so corepack's first-run download of pnpm 11.5.0 does not
 #     stop on a confirmation prompt when a terminal is present.
+#
+# One launcher per Auth0 tenant (USU-1694, 2026-09-24): `tenants` below. dev keeps the bare
+# names (`usu-mint-token`, `usu-mint-token-real`) and byte-identical scripts, so its store
+# paths, sudoers rules and every runbook line stay as they were; any other tenant gets a
+# suffix (`usu-mint-token-test` → secrets/auth0-test.json). All launchers share the broker
+# user, the pinned clone and the key-gated `usu-mint` PAM service; each has its own secrets
+# file and its own sudoers rules. Blast radius of adding a tenant: that command's verbs only —
+# plain sudo, login and screen unlock never see it.
 { config, pkgs, lib, ... }:
 let
   brokerUser = "usu-mint";
@@ -21,16 +29,19 @@ let
   pamService = "usu-mint"; # /etc/pam.d/usu-mint — the broker's verbs authenticate here, plain sudo does not
   # This channel's pkgs.pnpm is 10.x and the repo is engine-strict on pnpm@11.5.0 (packageManager).
   pnpm = "corepack pnpm@11.5.0";
-  usage = "usage: usu-mint-token mint [--web rd] | config | seed [args] | update <sha> | export-ci-secret | set <dotted.path>";
+
+  tenants = [ "dev" "test" ];
+  launcherName = tenant: if tenant == "dev" then "usu-mint-token" else "usu-mint-token-${tenant}";
+  usageFor = tenant: "usage: ${launcherName tenant} mint [--web rd] | config | seed [args] | update <sha> | export-ci-secret | set <dotted.path>";
 
   # The real launcher (spec §4.2): runs as usu-mint, dispatches on $1 only, never prints a secret.
-  brokerReal = pkgs.writeShellApplication {
-    name = "usu-mint-token-real";
+  mkReal = tenant: pkgs.writeShellApplication {
+    name = "${launcherName tenant}-real";
     runtimeInputs = with pkgs; [ nodejs_24 corepack git openssh coreutils gnugrep ];
     text = ''
       export HOME=${brokerHome}
       export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
-      REPO="$HOME/web-automation-v2"; SECRETS="$HOME/secrets/auth0-dev.json"
+      REPO="$HOME/web-automation-v2"; SECRETS="$HOME/secrets/auth0-${tenant}.json"
       export ACC_AUTH0_CONFIG="$SECRETS"; umask 077
       verb="''${1:-}"; shift || true
       case "$verb" in
@@ -47,19 +58,21 @@ let
         export-ci-secret) exec cat "$SECRETS" ;;
         set)    path="''${1:?usage: set <dotted.path>}"; [ -t 0 ] || { echo "set needs a terminal" >&2; exit 66; }
                 cd "$REPO"; exec ${pnpm} exec tsx scripts/broker-set.ts "$path" ;;
-        *) echo "${usage}" >&2; exit 64 ;;
+        *) echo "${usageFor tenant}" >&2; exit 64 ;;
       esac
     '';
   };
+  reals = lib.genAttrs tenants mkReal;
+  realPath = tenant: "${reals.${tenant}}/bin/${launcherName tenant}-real";
 
   # The user-facing wrapper: sudo to usu-mint. mint/config use -n (no prompt; fails fast without
   # a rule); the privileged verbs run `sudo -k` first so no cached authentication is ever reused.
-  broker = pkgs.writeShellApplication {
-    name = "usu-mint-token";
+  mkBroker = tenant: pkgs.writeShellApplication {
+    name = launcherName tenant;
     runtimeInputs = with pkgs; [ coreutils gnugrep ];
     text = ''
       SUDO=/run/wrappers/bin/sudo      # the setuid wrapper — never a sudo from PATH
-      REAL=${brokerReal}/bin/usu-mint-token-real
+      REAL=${realPath tenant}
       verb="''${1:-}"; shift || true
       case "$verb" in
         mint|config)
@@ -68,20 +81,32 @@ let
           "$SUDO" -k
           exec "$SUDO" -u ${brokerUser} "$REAL" "$verb" "$@" ;;
         update)
-          sha="''${1:?usage: usu-mint-token update <sha>}"
+          sha="''${1:?usage: ${launcherName tenant} update <sha>}"
           # The caller's 12-hour, read-only CodeArtifact line rides stdin into the boundary
           # (spec §4.3): less-trusted -> more-trusted, never argv.
           line="$(grep -E '^//.*codeartifact.*:_authToken=' "$HOME/.npmrc" || true)"
           [ -n "$line" ] || { echo "no CodeArtifact auth line in $HOME/.npmrc — run the service repo's scripts/codeartifact-login.sh first" >&2; exit 64; }
           "$SUDO" -k
           printf '%s\n' "$line" | "$SUDO" -u ${brokerUser} "$REAL" update "$sha" ;;
-        *) echo "${usage}" >&2; exit 64 ;;
+        *) echo "${usageFor tenant}" >&2; exit 64 ;;
       esac
     '';
   };
-  real = "${brokerReal}/bin/usu-mint-token-real";
-  nopass = c: { command = "${real} ${c}"; options = [ "NOPASSWD" ]; };
-  pass = c: { command = "${real} ${c}"; options = [ "PASSWD" ]; };
+
+  nopass = tenant: c: { command = "${realPath tenant} ${c}"; options = [ "NOPASSWD" ]; };
+  pass = tenant: c: { command = "${realPath tenant} ${c}"; options = [ "PASSWD" ]; };
+  # sudoers (spec §4.1): bare and `*` forms both listed — sudoers matches a bare command only with
+  # no arguments. No timestamp cache for the privileged verbs.
+  rulesFor = tenant: [
+    (nopass tenant "mint")
+    (nopass tenant "mint *")
+    (nopass tenant "config")
+    (pass tenant "seed")
+    (pass tenant "seed *")
+    (pass tenant "update *")
+    (pass tenant "export-ci-secret")
+    (pass tenant "set *")
+  ];
 in
 {
   users.groups.${brokerUser} = { };
@@ -98,32 +123,21 @@ in
     "d ${brokerHome}/.ssh 0700 ${brokerUser} ${brokerUser} -"
   ];
 
-  environment.systemPackages = [ broker pkgs.pam_u2f ];
+  environment.systemPackages = (map mkBroker tenants) ++ [ pkgs.pam_u2f ];
 
-  # sudoers (spec §4.1): bare and `*` forms both listed — sudoers matches a bare command only with
-  # no arguments. No timestamp cache for the privileged verbs.
   security.sudo.extraRules = [
     {
       users = [ caller ];
       runAs = brokerUser;
-      commands = [
-        (nopass "mint")
-        (nopass "mint *")
-        (nopass "config")
-        (pass "seed")
-        (pass "seed *")
-        (pass "update *")
-        (pass "export-ci-secret")
-        (pass "set *")
-      ];
+      commands = lib.concatMap rulesFor tenants;
     }
   ];
   # pam_service is a per-command Default: sudo applies Defaults! in set_cmnd() before check_user()
   # runs PAM (sudo 1.9.17p2 plugins/sudoers/sudoers.c:369, auth/pam.c:224).
-  security.sudo.extraConfig = ''
-    Defaults!${real} timestamp_timeout=0
-    Defaults!${real} pam_service="${pamService}"
-  '';
+  security.sudo.extraConfig = lib.concatMapStrings (tenant: ''
+    Defaults!${realPath tenant} timestamp_timeout=0
+    Defaults!${realPath tenant} pam_service="${pamService}"
+  '') tenants;
 
   # pam_u2f on the broker's PAM service ONLY — password AND touch ("required"; rolled out
   # "sufficient" → "required" per spec §4.1, §4.4 step 6). The `sudo` service keeps the host
