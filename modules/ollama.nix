@@ -13,7 +13,8 @@
 
   services.ollama = {
     enable = true;
-    acceleration = "cuda"; # Automatically configures CUDA runtime & drivers
+    # services.ollama.acceleration was removed in NixOS 26.05; the package
+    # choice alone selects the CUDA build.
     package = pkgs-unstable.ollama-cuda;
 
     # Optional optimizations for VRAM and throughput

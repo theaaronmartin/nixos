@@ -66,7 +66,7 @@
 
   systemd.services.audiobookshelf.serviceConfig = {
     Group = lib.mkForce "media";
-    UMask = "0002";
+    UMask = lib.mkForce "0002"; # 26.05 servarr modules set 0022 themselves
     ReadWritePaths = [
       "/mnt/media/Audio\\ Books"
       "/mnt/media/Downloads/complete"
@@ -103,7 +103,7 @@
 
   systemd.services.sonarr.serviceConfig = {
     Group = lib.mkForce "media";
-    UMask = "0002";
+    UMask = lib.mkForce "0002"; # 26.05 servarr modules set 0022 themselves
     ReadWritePaths = [
       "/mnt/media/Shows"
       "/mnt/media/Downloads/complete"
@@ -116,7 +116,7 @@
     serviceConfig = {
       Group = lib.mkForce "media";
       # UMask 0002: files get 664 (rw-rw-r--), dirs get 775 (rwxrwxr-x)
-      UMask = "0002";
+      UMask = lib.mkForce "0002"; # 26.05 servarr modules set 0022 themselves
     };
   };
 

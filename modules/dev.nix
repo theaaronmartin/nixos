@@ -16,7 +16,7 @@
     yaml-language-server
     biome
     clang-tools
-    nodejs_20
+    nodejs_22
     opencode
     # `pi` (pi-coding-agent) lives in ollama.nix instead: it is only useful
     # where the local Ollama it talks to is running, and this module is
@@ -52,8 +52,9 @@
     postman
     vscode
 
-    # nodejs_20 stays pinned above. fnm covers the multi-version workflow that
-    # NVM for Windows was doing; nodejs_22 is packaged if you want to bump.
+    # nodejs_22 stays pinned above. nodejs_20 went EOL and nixpkgs 26.05 marks
+    # it insecure, which refuses to evaluate. fnm covers the multi-version
+    # workflow that NVM for Windows was doing.
     fnm
     pnpm
     yarn
