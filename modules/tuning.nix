@@ -14,9 +14,10 @@
 #   Tactrix OP2.0 USB only      60-100 Hz   flash 1-5m     needs the rule below
 #   OBDLink EX    USB only      20-60 Hz    flash 1-10m    FTDI -> ttyUSB*
 #
-# The OBDLink EX ships an STN2120 behind a stock FTDI product ID and the OBDX
-# Pro VX enumerates as USB CDC, so the kernel binds both unaided and dialout is
-# all they need. The Tactrix Openport 2.0 is the exception: USB 0403:cc4d is an
+# The OBDLink EX puts its STN chip behind a stock FTDI product ID (0403:6015,
+# seen on SHELL 2026-09-24 binding to ftdi_sio as ttyUSB0), and the OBDX Pro VX
+# enumerates as USB CDC, so the kernel binds both unaided and dialout is all
+# they need. The Tactrix Openport 2.0 is the exception: USB 0403:cc4d is an
 # FTDI vendor ID with a custom product ID that is not in ftdi_sio's device
 # table, so the kernel binds nothing and no /dev/ttyUSB* ever appears. The rule
 # below registers the PID through ftdi_sio's new_id sysfs hook on plug-in,
@@ -24,8 +25,9 @@
 # product=` parameters.
 #
 # NB for the VB: an OBDLink EX needs firmware newer than its original release
-# to flash a 2022+ VB WRX, and OBD Solutions' STN updater is a Windows-only
-# .exe. Nothing in this module can work around that - it is a reason to prefer
+# to flash a 2022+ VB WRX (fixed in STN firmware 5.13.1; 5.13.0, 5.12.4 and
+# 5.10.3 are affected), and OBD Solutions' STN updater is a Windows-only .exe.
+# Atlas prints the adapter's firmware in its console on connect. Nothing in this module can work around that - it is a reason to prefer
 # one of the other two adapters on a Linux-only machine.
 { pkgs, ... }:
 {
