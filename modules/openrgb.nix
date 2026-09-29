@@ -36,10 +36,19 @@
     # CRITICAL: Must run after the server starts or it will fail to connect
     after = [ "openrgb.service" ];
     wantedBy = [ "multi-user.target" ];
+    # The server enumerates the six controllers over several seconds after it
+    # starts. A fixed 5 s pause was losing the race to the NZXT fan controller
+    # (device 5) on every boot since at least 2026-09-21, and the client then
+    # died with "Empty device ID". Give it longer, and retry on failure rather
+    # than leaving the lights unset for the whole session.
+    startLimitIntervalSec = 120;
+    startLimitBurst = 6;
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStartPre = "${pkgs.coreutils}/bin/sleep 5"; # Brief pause to let server detect all HID/I2C devices
+      Restart = "on-failure";
+      RestartSec = 5;
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 10";
       ExecStart =
         let
           redish = "C80002";

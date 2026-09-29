@@ -127,7 +127,9 @@
     "d /mnt/media_02/Downloads          0775 plague media -"
     "d /mnt/media_02/Downloads/complete 0775 plague media -"
     "d /mnt/media_02/Downloads/incomplete 0775 plague media -"
-    "d /mnt/media/Audio\\ Books 0775 plague media -"
+    # tmpfiles.d takes quoted fields; a backslash-escaped space is rejected
+    # ("Failed to parse line: Invalid argument" on every boot).
+    "d \"/mnt/media/Audio Books\" 0775 plague media -"
   ];
 
   users.users.sabnzbd.extraGroups = [ "media" ];
