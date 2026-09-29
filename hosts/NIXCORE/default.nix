@@ -56,6 +56,17 @@
   hardware.nvidia = {
     modesetting.enable = true;
     open = false;
+    # 595.71.05, the only driver in nixos-26.05, does not compile against
+    # kernel 7.2 (strncpy removed; nixpkgs issue #554125). Pin the current
+    # production driver from nixpkgs master until 26.05 carries a fix.
+    package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+      version = "595.104.02";
+      sha256_64bit = "sha256-5CHCAuTHn1jDx/MWG75xRU67PYiTb4ggWg4yfNBMWco=";
+      sha256_aarch64 = "sha256-PafStmwNMufeDp3VtpTGGCoW+53Gor/mieO1m1pI7gI=";
+      openSha256 = "sha256-FWk5ra2yjz8VAxAA8GXrSoeBj/XC1BKvsKsBKR09joE=";
+      settingsSha256 = "sha256-4Kxro6tvI5aX4nu2RspgyBsW+Jq3/VYjSAS5UGdzTCU=";
+      persistencedSha256 = "sha256-JsMLPqJuZwAtHngsQODMsmgO7F2tVkQ2arc7fYa2bwo=";
+    };
     nvidiaSettings = true;
     nvidiaPersistenced = true;
   };
@@ -71,7 +82,20 @@
 
   # Zen kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
-  boot.extraModulePackages = [ config.boot.kernelPackages.zenpower ];
+  boot.extraModulePackages = [
+    # nixpkgs' 2025-12-20 zenpower3 snapshot fails on zen 7.2 with
+    # "implicit declaration of function 'cpuid_ecx'"; upstream fixed the
+    # include on 2026-06-30. Drop this override once nixpkgs carries it.
+    (config.boot.kernelPackages.zenpower.overrideAttrs {
+      version = "unstable-2026-06-30";
+      src = pkgs.fetchFromGitHub {
+        owner = "AliEmreSenel";
+        repo = "zenpower3";
+        rev = "faeb180492209db51a93ed24b30b2d3b2acf785d";
+        hash = "sha256-zMR4CmOsrQti9uaZVbkXXLN140TjoTEwmHR4CJ73/0U=";
+      };
+    })
+  ];
   boot.kernelParams = [
     "processor.max_cstate=1"
     "rcu_nocbs=0-23"
