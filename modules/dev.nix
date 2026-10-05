@@ -73,5 +73,6 @@
     # MCP server giving Claude Code live nixpkgs / NixOS / home-manager lookups
     # via search.nixos.org and NixHub. From unstable: stable ships 1.0.3.
     pkgs-unstable.mcp-nixos
+    pkgs-unstable.herdr
   ];
 }
