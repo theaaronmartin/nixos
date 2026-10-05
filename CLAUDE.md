@@ -51,12 +51,15 @@ Multi-host NixOS flake for two x86_64-linux machines:
   `bb5fba5`). Do not reintroduce `wsl.nix` — it force-disabled NetworkManager and the firewall.
 
 **Flake inputs:**
-- `nixpkgs` → `nixos-25.11` (stable) — most system packages
+- `nixpkgs` → `nixos-26.05` (stable) — most system packages
 - `nixpkgs-unstable` — exposed as `pkgs-unstable` via `specialArgs`, for packages needing newer versions
-- `home-manager` → `release-25.11` — user-level config for `plague`
+- `home-manager` → `release-26.05` — user-level config for `plague`
 - `nixos-hardware` — SHELL imports `dell-precision-3490-intel`
 - `nix-citizen` — Star Citizen runner
 - `sops-nix` — secrets
+
+`system.stateVersion` and `home.stateVersion` stay at `"25.11"` — they pin stateful-data
+defaults, not the package set. Do not bump them along with the channel.
 
 **Entry points:**
 - `flake.nix` — inputs plus `nixosConfigurations.NIXCORE` and `nixosConfigurations.SHELL`
