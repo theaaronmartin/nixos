@@ -5,6 +5,59 @@
 let
   # Pinned to 6.4.372-6.4.062.0 to match the firmware already on the sensor.
   broadcomCv3plus = pkgs.callPackage ./pkgs/libfprint-2-tod1-broadcom-cv3plus/package.nix { };
+
+  # On 2026-10-02 the Dell EC stopped updating charge_now on battery: it kept
+  # reporting the "100%" placeholder it shows while docked, so there was no
+  # low-battery warning and the laptop died "at 100%". A power drain (AC and
+  # dock unplugged, power button held ~20 s) cleared it. This watches for a
+  # recurrence: on battery, it integrates current_now and alerts once ~50 mAh
+  # (~1.4%) has been drawn without charge_now moving. Integrating current
+  # rather than counting minutes means it can't fire when the laptop is idle
+  # or suspended.
+  # BATTERY_WATCH_SYSFS and BATTERY_WATCH_INTERVAL exist only for testing it
+  # against fake files.
+  batteryFreezeWatch = pkgs.writeShellApplication {
+    name = "battery-freeze-watch";
+    runtimeInputs = [ pkgs.coreutils pkgs.libnotify ];
+    text = ''
+      sysfs="''${BATTERY_WATCH_SYSFS:-/sys/class/power_supply}"
+      interval="''${BATTERY_WATCH_INTERVAL:-30}"
+      limit_uah=50000
+
+      rd() { cat "$1" 2>/dev/null || true; }
+
+      last=""
+      drawn=0
+      alerted=0
+      while true; do
+        if [ "$(rd "$sysfs/AC/online")" = 1 ]; then
+          last=""
+          drawn=0
+          alerted=0
+        else
+          now="$(rd "$sysfs/BAT0/charge_now")"
+          cur="$(rd "$sysfs/BAT0/current_now")"
+          if [ -n "$now" ] && [ -n "$cur" ]; then
+            if [ "$now" != "$last" ]; then
+              last="$now"
+              drawn=0
+            else
+              drawn=$((drawn + cur * interval / 3600))
+              if [ "$drawn" -ge "$limit_uah" ] && [ "$alerted" = 0 ]; then
+                echo "charge_now stuck at $now after ~$((drawn / 1000)) mAh drawn"
+                notify-send -u critical -a "Battery watch" -i battery-caution \
+                  "Battery % is frozen" \
+                  "About $((drawn / 1000)) mAh drawn and the reading hasn't moved, so you won't get a low-battery warning. Plug in, then shut down, unplug, hold power 20 s." ||
+                  echo "notify-send failed"
+                alerted=1
+              fi
+            fi
+          fi
+        fi
+        sleep "$interval"
+      done
+    '';
+  };
 in
 {
   # Firmware for the AX211 Wi-Fi 6E / Bluetooth radio and Meteor Lake SOF audio.
@@ -32,6 +85,18 @@ in
   services.fwupd.enable = true; # Dell publishes BIOS/firmware via LVFS
   services.upower.enable = true;
   hardware.sensor.iio.enable = true; # ambient light sensor / accelerometer
+
+  systemd.user.services.battery-freeze-watch = {
+    description = "Warn when the battery percentage stops counting down on battery";
+    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+      ExecStart = "${batteryFreezeWatch}/bin/battery-freeze-watch";
+      Restart = "on-failure";
+      RestartSec = 30;
+    };
+  };
 
   # Docked to the ATEN KVM most of the time, so don't suspend on lid close while
   # on external power.
