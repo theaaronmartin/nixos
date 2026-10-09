@@ -20,6 +20,7 @@
     ../../modules/star-citizen.nix
     ../../modules/games.nix
     ../../modules/ollama.nix
+    ../../modules/comfyui.nix
     ../../modules/base.nix
     ../../modules/dev.nix
     ../../modules/tui.nix

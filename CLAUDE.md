@@ -73,6 +73,7 @@ defaults, not the package set. Do not bump them along with the channel.
 | `audio.nix` | PipeWire (JACK + ALSA + Pulse), low-latency tuning, DecentSampler, NI zone FHS env, PAM real-time limits | both |
 | `base.nix` | Common system packages, zsh enablement | both |
 | `boot.nix` | systemd-boot | both |
+| `comfyui.nix` | ComfyUI image generation (SDXL 1.0 base, Juggernaut XI, RealVisXL V5) on :8188, LAN-open. Imports `services.comfyui` from nixpkgs-unstable and adds the NixOS CUDA binary cache so CUDA PyTorch is not compiled locally | NIXCORE |
 | `desktop.nix` | KDE Plasma 6 + SDDM, Firefox, Vesktop autostart unit | both |
 | `dev.nix` | Developer tools, direnv | both |
 | `docker.nix` | Docker engine. Split from `network.nix` 2026-09-01 so a host can run containers without the reverse proxy | both |
