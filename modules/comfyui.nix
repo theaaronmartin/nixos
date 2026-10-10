@@ -11,7 +11,7 @@
 # team's cache serves torch and triton for this exact package. On 2026-10-08 it
 # lacked only torchvision, torchaudio, torchcodec, einops and spandrel, which
 # built locally.
-{ inputs, pkgs-unstable, ... }:
+{ inputs, lib, pkgs-unstable, ... }:
 
 {
   imports = [ "${inputs.nixpkgs-unstable}/nixos/modules/services/misc/comfyui.nix" ];
@@ -75,6 +75,16 @@
       }
     ];
   };
+
+  # Let plague browse the generated images, at ~/Pictures/ComfyUI.
+  # The module keeps /var/lib/comfyui at 0700. Everything inside it is created
+  # under UMask 0022, so opening that top directory to the comfyui group is
+  # enough. The new group takes effect at plague's next login.
+  systemd.services.comfyui.serviceConfig.StateDirectoryMode = lib.mkForce "0750";
+  users.users.plague.extraGroups = [ "comfyui" ];
+  systemd.tmpfiles.rules = [
+    "L /home/plague/Pictures/ComfyUI - - - - /var/lib/comfyui/output"
+  ];
 
   networking.firewall.allowedTCPPorts = [ 8188 ];
 }
