@@ -10,7 +10,7 @@
 # hardware-configuration.nix.wsl.bak and in git history if you ever want to
 # revive it as a separate SHELL-WSL host. (The .bak file has since been
 # deleted; it is in git history at bb5fba5, not on disk.)
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -69,4 +69,15 @@
   # ESP carved out of shrunk C: space, and keep the generation count low anyway.
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.systemd-boot.configurationLimit = 5;
+
+  # webOS Dev Manager, for sideloading onto the LG TV (dev mode or rooted).
+  # SHELL only: on NIXCORE (RTX 3080, NVIDIA 595.104.02, webkitgtk 2.52.6) the
+  # window opens but the webview stays blank. Tried there 2026-10-15, all still
+  # blank: WEBKIT_DISABLE_DMABUF_RENDERER, WEBKIT_DISABLE_COMPOSITING_MODE,
+  # WEBKIT_SKIA_ENABLE_CPU_RENDERING, __NV_DISABLE_EXPLICIT_SYNC,
+  # LIBGL_ALWAYS_SOFTWARE, and GDK_BACKEND=x11 ("Failed to create GBM buffer").
+  # The WebKitWebProcess stays alive throughout, so it is not a crash.
+  environment.systemPackages = [
+    (pkgs.callPackage ../../modules/pkgs/webos-dev-manager/package.nix { })
+  ];
 }
