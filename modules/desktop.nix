@@ -139,5 +139,7 @@ in
     # Verified 2026-09-04 the same files play fine on the TV (Litefin, direct
     # play, zero ffmpeg processes) and via a forced transcode to 8-bit h264.
     jellyfin-media-player
+
+    vivaldi
   ];
 }
