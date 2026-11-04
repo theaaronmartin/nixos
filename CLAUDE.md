@@ -99,7 +99,7 @@ defaults, not the package set. Do not bump them along with the channel.
 | `tuning.nix` | Atlas ECU tuning suite, AppImage support, Tactrix Openport udev rules | SHELL |
 | `users.nix` | `plague` user, group memberships, SSH agent | both |
 | `work.nix` | Work packages (teams-for-linux, etc.) | SHELL |
-| `pkgs/` | Local package definitions — the pinned `libfprint-2-tod1-broadcom-cv3plus` driver and the `atlas` AppImage wrapper (SHELL); `ni-powershell-shim` (`native-instruments.nix`, NIXCORE); `webos-dev-manager`, the LG TV sideloading tool, patched from its upstream .deb (`hosts/SHELL`, SHELL — blank webview on NIXCORE's NVIDIA) | per package |
+| `pkgs/` | Local package definitions — the pinned `libfprint-2-tod1-broadcom-cv3plus` driver and the `atlas` AppImage wrapper (SHELL); `ni-powershell-shim` (`native-instruments.nix`, NIXCORE); `webos-dev-manager`, the LG TV sideloading tool, patched from its upstream .deb (`hosts/SHELL`, SHELL — blank webview on NIXCORE's NVIDIA); `craft-anything`, patched from its upstream tarball with its dlopen()ed X11/Wayland/Vulkan/EGL libs on RUNPATH (`hosts/SHELL`, SHELL) | per package |
 
 Several modules were split apart on 2026-09-01 and carry header comments explaining exactly why.
 **Those comments are authoritative** — read the top of a module before changing it.

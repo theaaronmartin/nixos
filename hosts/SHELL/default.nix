@@ -79,5 +79,8 @@
   # The WebKitWebProcess stays alive throughout, so it is not a crash.
   environment.systemPackages = [
     (pkgs.callPackage ../../modules/pkgs/webos-dev-manager/package.nix { })
+    # Craft Anything (storytold/craft-anything): study a site/app/game and have
+    # Claude Code rebuild it. GUI `craft-anything` + `craft-anything-cli`.
+    (pkgs.callPackage ../../modules/pkgs/craft-anything/package.nix { })
   ];
 }
