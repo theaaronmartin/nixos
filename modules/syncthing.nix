@@ -71,25 +71,6 @@ in
             ".trash"
           ];
         };
-
-        # The Obsidian vault Claude Code reads and writes (added 2026-11-03).
-        # It holds work notes, so it syncs between SHELL and NIXCORE only and
-        # is never offered to GHOST. Ignores match the notes folder above.
-        claude-vault = {
-          id = "claude-vault";
-          label = "claude-vault";
-          path = "/home/plague/claude-vault";
-          devices = lib.filter (name: name != "GHOST") peerNames;
-          ignorePatterns = [
-            "(?d).git"
-            "(?d).obsidian"
-            "(?d).sync-conflict-*"
-            "*.db-shm"
-            "*.db-wal"
-            ".DS_Store"
-            ".trash"
-          ];
-        };
       };
     };
   };
