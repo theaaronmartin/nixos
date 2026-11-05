@@ -1,10 +1,14 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   programs.wezterm.enable = true;
   programs.neovim = {
     enable = true;
     defaultEditor = true;
     vimAlias = true;
+    # nvim-treesitter's `main` branch (the only one that supports Neovim
+    # 0.12; `master` is archived) builds parsers with the tree-sitter CLI,
+    # >= 0.26.1. Scoped to Neovim's PATH rather than installed system-wide.
+    extraPackages = [ pkgs.tree-sitter ];
     # home-manager 26.05 writes the provider setup (python3/ruby host_prog,
     # node/perl disabled) to ~/.config/nvim/init.lua. That path is the
     # mkOutOfStoreSymlink below, which resolves outside $HOME and makes the
