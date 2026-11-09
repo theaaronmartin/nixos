@@ -22,7 +22,7 @@ config.keys = {
 
 config.background = {
     {
-        source = { File = home_dir .. "/nixos/dotfiles/assets/ghost_in_the_shell.png" },
+        source = { File = home_dir .. "/nixos/dotfiles/assets/wrx.jpg" },
         width = "Cover",
         height = "Cover",
         hsb = { brightness = 0.5 },

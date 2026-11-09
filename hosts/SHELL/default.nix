@@ -10,7 +10,7 @@
 # hardware-configuration.nix.wsl.bak and in git history if you ever want to
 # revive it as a separate SHELL-WSL host. (The .bak file has since been
 # deleted; it is in git history at bb5fba5, not on disk.)
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, pkgs-unstable, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -82,5 +82,15 @@
     # Craft Anything (storytold/craft-anything): study a site/app/game and have
     # Claude Code rebuild it. GUI `craft-anything` + `craft-anything-cli`.
     (pkgs.callPackage ../../modules/pkgs/craft-anything/package.nix { })
+    # Mister Download Manager (anefzaoui/misterdownloadmanager): segmented
+    # downloads, torrents, and video via yt-dlp. NixOS caveats (self-update,
+    # helpers, browser manifests) are in the package's header comment.
+    (pkgs.callPackage ../../modules/pkgs/misterdownloadmanager/package.nix { })
+    # Its helpers, from nixpkgs rather than the PyInstaller builds MDM offers
+    # to download. Point MDM at them in Helpers... (MDM takes ffmpeg from
+    # PATH on Linux, and dev.nix provides it).
+    # These come from unstable because site extractors go stale quickly.
+    pkgs-unstable.yt-dlp
+    pkgs-unstable.gallery-dl
   ];
 }
