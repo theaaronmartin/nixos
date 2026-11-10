@@ -51,18 +51,26 @@
       ExecStartPre = "${pkgs.coreutils}/bin/sleep 10";
       ExecStart =
         let
+          # Previous scheme, unused for now — kept to switch back to.
           redish = "C80002";
           purpleish = "5D00FF";
+          yellowish = "F0FF00"; # rgb(240, 255, 0)
+          # Read live off device 3 on 2026-11-10. Device 5 was still on the old
+          # 5D00FF purple, but its Hue 2 channels report 0 LEDs, so the blue on
+          # show was coming from the motherboard.
+          blueish = "0000FF";
           bin = "${pkgs-unstable.openrgb-with-all-plugins}/bin/openrgb";
         in
         # 0: Kingston Fury DDR4 DRAM, 1: ASUS TUF RTX 3080, 2: NZXT Kraken X3
           # 3: ASUS ROG Crosshair VIII, 4: Glorious Model O, 5: NZXT RGB & Fan Controller
-        "${bin} --device 0 --mode static --color ${redish} "
-        + "--device 1 --mode static --color ${redish} "
-        + "--device 2 --mode static --color ${redish} "
-        + "--device 3 --mode static --color ${purpleish} "
-        + "--device 4 --mode static --color ${redish} "
-        + "--device 5 --mode static --color ${purpleish}";
+        "${bin} --device 0 --mode static --color ${yellowish} "
+        + "--device 1 --mode static --color ${yellowish} "
+        + "--device 2 --mode static --color ${yellowish} "
+        + "--device 3 --mode static --color ${blueish} "
+        # The Model O has no Static mode — `--mode static` is rejected and the
+        # mouse silently keeps whatever it had. Custom is its single-colour mode.
+        + "--device 4 --mode custom --color ${yellowish} "
+        + "--device 5 --mode static --color ${blueish}";
     };
   };
 
