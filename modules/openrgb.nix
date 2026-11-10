@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-unstable, ... }:
+{ config, lib, pkgs, pkgs-unstable, ... }:
 {
   services.hardware.openrgb = {
     enable = true;
@@ -38,9 +38,10 @@
     wantedBy = [ "multi-user.target" ];
     # The server enumerates the six controllers over several seconds after it
     # starts. A fixed 5 s pause was losing the race to the NZXT fan controller
-    # (device 5) on every boot since at least 2026-09-21, and the client then
-    # died with "Empty device ID". Give it longer, and retry on failure rather
-    # than leaving the lights unset for the whole session.
+    # on every boot since at least 2026-09-21, and the client then died with
+    # "Empty device ID" (now, with names, `Cannot find device "..."`). Give it
+    # longer, and retry on failure rather than leaving the lights unset for the
+    # whole session.
     startLimitIntervalSec = 120;
     startLimitBurst = 6;
     serviceConfig = {
@@ -60,17 +61,36 @@
           # show was coming from the motherboard.
           blueish = "0000FF";
           bin = "${pkgs-unstable.openrgb-with-all-plugins}/bin/openrgb";
+          # Devices are picked by name, not index. The mouse is on a KVM shared
+          # with SHELL, so if NIXCORE boots while it points there the mouse is
+          # missing and every index after it shifts. `--device "name"` is a
+          # case-insensitive substring match that selects *every* device
+          # containing it, so keep each one unique: bare "NZXT" would hit both
+          # the Kraken and the fan controller.
+          set =
+            name: mode: color:
+            ''--device "${name}" --mode ${mode} --color ${color}'';
         in
-        # 0: Kingston Fury DDR4 DRAM, 1: ASUS TUF RTX 3080, 2: NZXT Kraken X3
-          # 3: ASUS ROG Crosshair VIII, 4: Glorious Model O, 5: NZXT RGB & Fan Controller
-        "${bin} --device 0 --mode static --color ${yellowish} "
-        + "--device 1 --mode static --color ${yellowish} "
-        + "--device 2 --mode static --color ${yellowish} "
-        + "--device 3 --mode static --color ${blueish} "
-        # The Model O has no Static mode — `--mode static` is rejected and the
-        # mouse silently keeps whatever it had. Custom is its single-colour mode.
-        + "--device 4 --mode custom --color ${yellowish} "
-        + "--device 5 --mode static --color ${blueish}";
+        [
+          # If any name is not found the CLI exits 255 before applying anything,
+          # so a failure here means the server is still enumerating, and
+          # Restart= retries the unit.
+          (lib.concatStringsSep " " [
+            bin
+            (set "Kingston Fury" "static" yellowish)
+            (set "RTX 3080" "static" yellowish)
+            (set "Kraken" "static" yellowish)
+            (set "Crosshair" "static" blueish)
+            (set "Fan Controller" "static" blueish)
+          ])
+          # The mouse gets its own step, and the leading "-" lets it fail when the
+          # KVM points at SHELL. It has enumerated before the fan controller on
+          # every run seen so far, so once the step above succeeds it is there if
+          # it is plugged in. The Model O has no Static mode: `--mode static`
+          # prints an error but exits 0, and the mouse silently keeps its old
+          # colour. Custom is its single-colour mode.
+          "-${bin} ${set "Model O" "custom" yellowish}"
+        ];
     };
   };
 
