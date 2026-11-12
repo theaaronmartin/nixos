@@ -21,6 +21,7 @@
     ../../modules/games.nix
     ../../modules/ollama.nix
     ../../modules/comfyui.nix
+    ../../modules/lubelogger.nix
     ../../modules/base.nix
     ../../modules/dev.nix
     ../../modules/tui.nix

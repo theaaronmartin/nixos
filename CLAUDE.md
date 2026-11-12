@@ -82,6 +82,7 @@ defaults, not the package set. Do not bump them along with the channel.
 | `hm-dev.nix` | Home-manager dev env: Neovim, WezTerm, Starship | both |
 | `laptop.nix` | Laptop hardware + power policy, IIO sensors, firmware | SHELL |
 | `locale.nix` | Timezone (`America/Los_Angeles`) and locale | both |
+| `lubelogger.nix` | LubeLogger vehicle maintenance tracker on :5000, LAN-open. Overrides the nixpkgs module's localhost-only Kestrel bind | NIXCORE |
 | `media.nix` | Jellyfin (NVIDIA HW accel override), Radarr, Sonarr, SABnzbd, Navidrome, Audiobookshelf — all in the `media` group (GID 989) | NIXCORE |
 | `mobile-dev.nix` | Android / React Native / Expo toolchain, `programs.adb` | SHELL |
 | `network.nix` | NetworkManager, OpenSSH, minimal firewall | both |
